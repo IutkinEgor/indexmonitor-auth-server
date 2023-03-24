@@ -1,0 +1,30 @@
+plugins {
+    id 'java-library'
+}
+
+jar {
+    baseName = 'user-adapter-in-mvc'
+    version = '0.0.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation project(":common:application")
+    implementation project(":common:domain")
+
+    implementation project(":user:adapter:out:persistence")
+    implementation project(":user:application")
+    implementation project(":user:domain")
+
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
+    implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
+
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+}

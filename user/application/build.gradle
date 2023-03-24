@@ -1,0 +1,23 @@
+plugins {
+    id 'java-library'
+}
+
+jar {
+    baseName = 'user-application'
+    version = '0.0.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":common:application")
+    implementation project(":common:domain")
+    implementation project(":user:domain")
+
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
+    implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
+}

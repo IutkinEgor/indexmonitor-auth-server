@@ -1,0 +1,44 @@
+plugins {
+    id 'java-library'
+}
+
+jar {
+    baseName = 'client-adapter-in-api'
+    version = '0.0.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":common:adapter:in:api")
+    implementation project(":common:application")
+    implementation project(":common:domain")
+
+    implementation project(":client:adapter:out:persistence")
+    implementation project(":client:application")
+    implementation project(":client:domain")
+
+
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
+    implementation "org.springframework.security:spring-security-oauth2-jose:$springSecurity"
+    implementation "org.springframework.security:spring-security-oauth2-resource-server:$springSecurity"
+
+//    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+//    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+//    //implementation 'org.springframework.security:spring-security-oauth2-resource-server:6.0.1'
+//    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
+
+//    implementation "io.springfox:springfox-swagger2:$springfoxSwaggerVersion"
+//    implementation "io.springfox:springfox-swagger-ui:$springfoxSwaggerVersion"
+
+
+
+}
+

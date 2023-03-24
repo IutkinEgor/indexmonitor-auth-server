@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/client/adapter/out/persistence/src/main/java/org/indexmonitor/client/adapter/out/persistence/repositories/ClientRepository.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/user/adapter/out/persistence/src/main/java/org/indexmonitor/user/adapter/out/persistence/rolerepository/RoleRepository.java" dialect="GenericSQL" />
+    <file url="PROJECT" dialect="PostgreSQL" />
+  </component>
+</project>

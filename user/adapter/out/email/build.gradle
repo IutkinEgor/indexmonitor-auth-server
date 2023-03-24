@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+jar {
+    baseName = 'user-adapter-out-email'
+    version = '0.0.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":common:domain")
+    implementation project(":user:domain")
+    implementation project(":user:application")
+
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    implementation "org.springframework.boot:spring-boot-starter-mail:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion"
+}
+

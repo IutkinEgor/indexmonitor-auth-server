@@ -1,0 +1,27 @@
+
+body{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.app-center{
+    margin: 0px;
+    padding: 0px 0px 20px;
+    text-align: center;
+}
+p{
+    margin: 0px;
+    padding: 10px 0px 0px 0px;
+    color: red;
+}
+.app-register-form{
+    min-width: 180px;
+    width: 35vw;
+    background-color: aliceblue;
+    border-radius: 20px;
+    margin: 0px;
+    padding: 20px;
+}

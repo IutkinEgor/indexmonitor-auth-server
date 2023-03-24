@@ -1,0 +1,30 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName = 'auth-application'
+    version = '0.0.1'
+}
+
+dependencies {
+    implementation project(":client:application")
+    implementation project(":client:domain")
+    implementation project(":user:application")
+    implementation project(":user:domain")
+    implementation project(":common:application")
+    implementation project(":common:domain")
+
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
+    implementation "org.springframework.security:spring-security-oauth2-authorization-server:$springSecurityAuthServer"
+    implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
+
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+
+}

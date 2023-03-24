@@ -1,0 +1,12 @@
+plugins {
+    id 'java-library'
+}
+
+jar {
+    baseName = 'user-domain'
+    version = '0.0.1'
+}
+
+dependencies {
+    implementation project(":common:domain")
+}

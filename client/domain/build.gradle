@@ -1,0 +1,19 @@
+plugins {
+    id 'java-library'
+}
+
+jar {
+    baseName = 'client-domain'
+    version = '0.0.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation project(":common:domain")
+
+}
+

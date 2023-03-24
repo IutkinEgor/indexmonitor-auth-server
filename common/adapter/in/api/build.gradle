@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+jar {
+    baseName = 'common-adapter-in-api'
+    version = '0.0.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":common:application")
+    implementation project(":common:domain")
+    implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
+    implementation "org.springframework.security:spring-security-oauth2-jose:$springSecurity"
+    implementation "org.springframework.security:spring-security-oauth2-resource-server:$springSecurity"
+    implementation "jakarta.validation:jakarta.validation-api:$jakartaValidatonVersion"
+}

@@ -1,0 +1,20 @@
+:root {
+    --black: #3f3d56;
+    --back-ground: #eeeeee;
+    --yellow-light: #ffd763;
+    --yellow-shadow: #ffe496;
+}
+
+.form-control:focus{border-color: var(--yellow-light);  box-shadow: 0 0 0 0.1rem var(--yellow-shadow);}
+
+.input-group-text{
+    background-color: var(--yellow-light)
+}
+
+.greating{
+    color: var(--black);
+}
+
+body{
+    background-color: var(--black);
+}

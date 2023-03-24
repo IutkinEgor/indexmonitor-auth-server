@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version "$springBootVersion"
+}
+
+jar {
+    baseName = 'application'
+    version = '0.0.1'
+}
+
+
+repositories {
+    mavenCentral()
+}
+//jar {
+//    manifest {
+//        attributes 'Main-Class': 'org.indexmonitor.configuration.application.Application'
+//    }
+//}
+bootJar {
+    mainClass = 'org.indexmonitor.configuration.application.Application'
+}
+
+dependencies {
+    implementation project(':common:adapter:in:api')
+
+    implementation project(":auth:application")
+
+    implementation project(':client:adapter:in:api')
+    implementation project(':client:adapter:out:persistence')
+    implementation project(":client:application")
+
+    implementation project(":user:adapter:in:api")
+    implementation project(":user:adapter:in:mvc")
+    implementation project(":user:adapter:out:email")
+    implementation project(":user:adapter:out:persistence")
+    implementation project(":user:application")
+
+    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+}
+
