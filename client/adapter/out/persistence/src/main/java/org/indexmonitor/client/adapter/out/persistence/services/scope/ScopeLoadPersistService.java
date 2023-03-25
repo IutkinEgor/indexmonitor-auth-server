@@ -7,6 +7,8 @@ import org.indexmonitor.client.application.ports.out.scope.ScopeLoadPort;
 import org.indexmonitor.client.domain.aggregates.Scope;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
 import lombok.AllArgsConstructor;
+import org.indexmonitor.common.domain.valueObjects.BasePage;
+import org.indexmonitor.user.adapter.out.persistence.entities.RoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -25,15 +27,9 @@ class ScopeLoadPersistService implements ScopeLoadPort {
     private final ScopePersistenceMapper mapper;
 
     @Override
-    public Set<Scope> findAll(Integer offset, Integer limit) {
-        if (offset == null || offset < 0) {
-            throw new IllegalArgumentException("Offset can not be less than 0.");
-        }
-        if (limit == null || limit < 1) {
-            throw new IllegalArgumentException("Limit can not be less than 1.");
-        }
-        Page<ScopeEntity> entity = repository.findAll(PageRequest.of(offset,limit,Sort.by(Sort.Direction.ASC, "createdAt")));
-        return entity.stream().map(client -> mapper.entityToModel(client)).collect(Collectors.toCollection(LinkedHashSet::new));
+    public BasePage<Scope> findAll(Integer page, Integer size) {
+        Page<ScopeEntity> entities = repository.findAll(PageRequest.of(page,size, Sort.by(Sort.Direction.ASC, "createdAt")));
+        return mapper.entityToModel(entities);
     }
 
     @Override

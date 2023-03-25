@@ -4,9 +4,13 @@ import org.indexmonitor.client.adapter.out.persistence.entities.ScopeEntity;
 import org.indexmonitor.client.adapter.out.persistence.mappers.ScopePersistenceMapper;
 import org.indexmonitor.client.domain.aggregates.Scope;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
+import org.indexmonitor.common.domain.valueObjects.BasePage;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.util.LinkedHashSet;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 class ScopePersistenceMapperImpl implements ScopePersistenceMapper {
@@ -34,6 +38,16 @@ class ScopePersistenceMapperImpl implements ScopePersistenceMapper {
                 .createdBy(entity.getCreatedBy() == null ? null : new BaseId(entity.getCreatedBy()))
                 .isEnable(entity.getIsEnable())
                 .isObtainable(entity.getIsObtainable())
+                .build();
+    }
+
+    @Override
+    public BasePage<Scope> entityToModel(Page<ScopeEntity> entities) {
+        return BasePage.<Scope>builder()
+                .elements(entities.getContent().stream().map(entity -> entityToModel(entity)).collect(Collectors.toCollection(LinkedHashSet::new)))
+                .totalCount(entities.getTotalElements())
+                .currentPage(entities.getPageable().getPageNumber())
+                .currentSize(entities.getPageable().getPageSize())
                 .build();
     }
 }

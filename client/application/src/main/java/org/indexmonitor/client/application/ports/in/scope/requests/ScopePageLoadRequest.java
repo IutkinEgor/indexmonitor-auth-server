@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScopeLoadPageRequest extends SelfValidator<ScopeLoadRequest> {
+public class ScopePageLoadRequest extends SelfValidator<ScopeLoadRequest> {
     public static final int DEFAULT_PAGE_MIN_VALUE = 0;
     public static final int DEFAULT_SIZE_MIN_VALUE = 1;
     public static final int DEFAULT_PAGE_VALUE = 0;
@@ -20,8 +20,8 @@ public class ScopeLoadPageRequest extends SelfValidator<ScopeLoadRequest> {
 
     @NotNull(message = "Page can not be NULL.")
     @Min(value = DEFAULT_PAGE_MIN_VALUE, message = "Page minimal value is 0.")
-    private Integer offset = DEFAULT_PAGE_VALUE;
+    private Integer page = DEFAULT_PAGE_VALUE;
     @NotNull(message = "Size can not be NULL.")
     @Min(value = DEFAULT_SIZE_MIN_VALUE, message = "Size minimal value is 1.")
-    private Integer limit = DEFAULT_SIZE_VALUE;
+    private Integer size = DEFAULT_SIZE_VALUE;
 }

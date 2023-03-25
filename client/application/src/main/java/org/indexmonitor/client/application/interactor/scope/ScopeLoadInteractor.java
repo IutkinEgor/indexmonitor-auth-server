@@ -4,7 +4,7 @@ import org.indexmonitor.client.application.exceptions.scope.ScopeNotFoundExcepti
 import org.indexmonitor.client.application.exceptions.scope.ScopeUsedByClientException;
 import org.indexmonitor.client.application.mappers.ScopeMapper;
 import org.indexmonitor.client.application.ports.in.scope.ScopeLoadUseCase;
-import org.indexmonitor.client.application.ports.in.scope.requests.ScopeLoadPageRequest;
+import org.indexmonitor.client.application.ports.in.scope.requests.ScopePageLoadRequest;
 import org.indexmonitor.client.application.ports.in.scope.requests.ScopeLoadRequest;
 import org.indexmonitor.client.application.ports.in.scope.responses.ScopePageResponse;
 import org.indexmonitor.client.application.ports.in.scope.responses.ScopeResponse;
@@ -29,18 +29,6 @@ class ScopeLoadInteractor extends Interactor implements ScopeLoadUseCase {
 
     private final ClientLoadPort clientLoadPort;
     private final ScopeLoadPort scopeLoadPort;
-    private final ScopeMapper mapper;
-
-
-    @Override
-    public BaseResponse<Set<ScopePageResponse>> findAll(ScopeLoadPageRequest request) {
-        try {
-            request.validateSelf();
-            return onRequestSuccess(ScopePageResponse.map(tryLoadScopePage(request)));
-        }catch (Exception e){
-            return onRequestFailure(e);
-        }
-    }
 
     @Override
     public BaseResponse<Set<ScopeUsedByClientsResponse>> findAllScopeClients(ScopeLoadRequest request) {
@@ -63,10 +51,6 @@ class ScopeLoadInteractor extends Interactor implements ScopeLoadUseCase {
         }catch (Exception e){
             return onRequestFailure(e);
         }
-    }
-
-    Set<Scope> tryLoadScopePage(ScopeLoadPageRequest request){
-        return scopeLoadPort.findAll(request.getOffset(), request.getLimit());
     }
 
     Scope tryLoadScope(ScopeLoadRequest request){
