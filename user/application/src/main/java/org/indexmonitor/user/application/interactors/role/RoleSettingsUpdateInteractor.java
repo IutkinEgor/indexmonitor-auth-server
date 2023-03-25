@@ -12,14 +12,16 @@ import org.indexmonitor.user.application.ports.out.role.RoleLoadPort;
 import org.indexmonitor.user.application.ports.out.role.RoleUpdatePort;
 import org.indexmonitor.user.domain.aggregates.Role;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
 @AllArgsConstructor
-class RoleUpdateInteractor extends Interactor implements RoleSettingsUpdateUseCase {
-
+class RoleSettingsUpdateInteractor extends Interactor implements RoleSettingsUpdateUseCase {
+    private final Logger logger = LoggerFactory.getLogger(RoleSettingsUpdateInteractor.class);
     private final RoleLoadPort roleLoadPort;
     private final RoleUpdatePort roleUpdatePort;
     private final RoleMapper roleMapper;
@@ -31,6 +33,7 @@ class RoleUpdateInteractor extends Interactor implements RoleSettingsUpdateUseCa
             tryUpdateRole(request);
             return onRequestSuccess();
         }catch (Exception e){
+            logger.debug(String.format("Failed to update settings for role with ID '%s'. Exception message: '%s'.", request.getId() == null ? "null" : request.getId(), e.getMessage()));
             return onRequestFailure(e);
         }
     }

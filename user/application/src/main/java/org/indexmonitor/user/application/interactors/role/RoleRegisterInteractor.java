@@ -10,12 +10,14 @@ import org.indexmonitor.user.application.ports.out.role.RoleLoadPort;
 import org.indexmonitor.user.application.ports.out.role.RoleRegisterPort;
 import org.indexmonitor.user.domain.aggregates.Role;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
 class RoleRegisterInteractor extends Interactor implements RoleRegisterUseCase {
-
+    private final Logger logger = LoggerFactory.getLogger(RoleRegisterInteractor.class);
     private final RoleRegisterPort roleRegisterPort;
     private final RoleLoadPort roleLoadPort;
     private final RoleMapper roleMapper;
@@ -28,6 +30,7 @@ class RoleRegisterInteractor extends Interactor implements RoleRegisterUseCase {
             tryRegisterRole(role);
             return onRequestSuccess();
         }catch (Exception e){
+            logger.debug(String.format("Failed to register role. Exception message: '%s'.", e.getMessage()));
             return onRequestFailure(e);
         }
     }

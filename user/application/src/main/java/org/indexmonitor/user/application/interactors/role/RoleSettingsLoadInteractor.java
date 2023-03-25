@@ -10,6 +10,8 @@ import org.indexmonitor.user.application.ports.in.role.responses.RoleResponse;
 import org.indexmonitor.user.application.ports.out.role.RoleLoadPort;
 import org.indexmonitor.user.domain.aggregates.Role;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -17,7 +19,7 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 class RoleSettingsLoadInteractor extends Interactor implements RoleSettingsLoadUseCase {
-
+    private final Logger logger = LoggerFactory.getLogger(RoleSettingsLoadInteractor.class);
     private final RoleLoadPort roleLoadPort;
 
     @Override
@@ -26,6 +28,7 @@ class RoleSettingsLoadInteractor extends Interactor implements RoleSettingsLoadU
             request.validateSelf();
             return onRequestSuccess(RoleResponse.map(tryLoadRole(request)));
         }catch (Exception e){
+            logger.debug(String.format("Failed to load settings for role with ID '%s'. Exception message: '%s'.", request.getId() == null ? "null" : request.getId(), e.getMessage()));
             return onRequestFailure(e);
         }
     }

@@ -9,11 +9,14 @@ import org.indexmonitor.client.domain.aggregates.Scope;
 import org.indexmonitor.common.application.models.Interactor;
 import org.indexmonitor.common.domain.valueObjects.BasePage;
 import org.indexmonitor.common.domain.valueObjects.BasePageResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
 public class ScopePageLoadInteractor extends Interactor implements ScopePageLoadUseCase {
+    private final Logger logger = LoggerFactory.getLogger(ScopePageLoadInteractor.class);
     private final ScopeLoadPort scopeLoadPort;
 
     @Override
@@ -22,6 +25,7 @@ public class ScopePageLoadInteractor extends Interactor implements ScopePageLoad
             request.validateSelf();
             return onPageRequestSuccess(ScopePageResponse.map(tryLoadPage(request)));
         }catch (Exception e){
+            logger.debug(String.format("Failed to load scope page. Exception message: '%s'.", e.getMessage()));
             return onPageRequestFailure(e);
         }
     }

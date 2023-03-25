@@ -20,7 +20,7 @@ public class UserSettingsUpdateController {
     @PutMapping
     public ResponseEntity<BaseResponse> update(@PathVariable(name = "id") String id, @RequestBody UserSettingsUpdateRequest request){
         AccessControlUtil.builder().hasAllRoles(REQUIRED_ROLES).hasAllAuthorities(REQUIRED_AUTHORITIES).validate();
-        request.setUserId(id);
+        request.setId(id);
         BaseResponse response = userSettingsUpdateUseCase.update(request);
         return new ResponseEntity<>(response, response.isSuccess() ? HttpStatus.ACCEPTED : HttpStatus.BAD_REQUEST);
     }

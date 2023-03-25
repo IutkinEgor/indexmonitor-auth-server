@@ -11,6 +11,8 @@ import org.indexmonitor.user.application.ports.in.user.requests.UserProfileUpdat
 import org.indexmonitor.user.application.ports.out.user.UserLoadPort;
 import org.indexmonitor.user.application.ports.out.user.UserUpdatePort;
 import org.indexmonitor.user.domain.aggregates.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -18,7 +20,7 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 class UserProfileUpdateInteractor extends Interactor implements UserProfileUpdateUseCase {
-
+    private final Logger logger = LoggerFactory.getLogger(UserProfileUpdateInteractor.class);
     private final UserLoadPort userLoadPort;
     private final UserUpdatePort userUpdatePort;
 
@@ -30,12 +32,13 @@ class UserProfileUpdateInteractor extends Interactor implements UserProfileUpdat
             tryUpdateUser(request, tryLoadUser(request));
             return onRequestSuccess();
         }catch (Exception e){
+            logger.debug(String.format("Failed to update profile for user with ID '%s'. Exception message: '%s'.",  request.getId() == null ? "null" : request.getId(), e.getMessage()));
             return onRequestFailure(e);
         }
     }
 
     private User tryLoadUser(UserProfileUpdateRequest request){
-        Optional<User> user = userLoadPort.findByUserId(BaseId.map(request.getUserId()));
+        Optional<User> user = userLoadPort.findByUserId(BaseId.map(request.getId()));
         if(user.isEmpty()) {
             throw new UserNotFoundException();
         }

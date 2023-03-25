@@ -14,6 +14,8 @@ import org.indexmonitor.user.domain.aggregates.Authority;
 import org.indexmonitor.user.domain.aggregates.User;
 import org.indexmonitor.user.domain.valueObjects.UserAuthority;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 class UserAuthoritiesRemoveInteractor extends Interactor implements UserAuthoritiesRemoveUseCase {
-    
+    private final Logger logger = LoggerFactory.getLogger(UserAuthoritiesRemoveInteractor.class);
     private final UserLoadPort userLoadPort;
     private final UserUpdatePort userUpdatePort;
     private final AuthorityLoadPort authorityLoadPort;
@@ -39,6 +41,10 @@ class UserAuthoritiesRemoveInteractor extends Interactor implements UserAuthorit
             return  onRequestSuccess();
         }
         catch (Exception e){
+            logger.debug(String.format("Failed to remove authorities for user with ID '%s'. Authorities IDs: '%s'. Exception message: '%s'.",
+                    request.getId() == null ? "null" : request.getId(),
+                    request.getAuthorityIds() == null ? "null" : request.getAuthorityIds(),
+                    e.getMessage()));
             return onRequestFailure(e);
         }
     }

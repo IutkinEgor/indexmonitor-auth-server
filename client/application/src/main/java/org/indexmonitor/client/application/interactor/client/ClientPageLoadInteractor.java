@@ -8,6 +8,8 @@ import org.indexmonitor.client.domain.aggregates.Client;
 import org.indexmonitor.common.application.models.Interactor;
 import org.indexmonitor.common.domain.valueObjects.BaseResponse;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -15,6 +17,7 @@ import java.util.Set;
 @Service
 @AllArgsConstructor
 class ClientPageLoadInteractor extends Interactor implements ClientPageLoadUseCase {
+    private final Logger logger = LoggerFactory.getLogger(ClientPageLoadInteractor.class);
     private final ClientLoadPort clientLoadPort;
 
     @Override
@@ -23,6 +26,7 @@ class ClientPageLoadInteractor extends Interactor implements ClientPageLoadUseCa
             request.validateSelf();
             return onRequestSuccess(ClientPageModelResponse.map(tryLoadClientPage(request)));
         }catch (Exception e){
+            logger.debug(String.format("Failed to load client page. Exception message: '%s'.", e.getMessage()));
             return onRequestFailure(e);
         }
     }

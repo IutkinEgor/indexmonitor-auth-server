@@ -12,6 +12,8 @@ import org.indexmonitor.user.application.ports.out.authority.AuthorityLoadPort;
 import org.indexmonitor.user.application.ports.out.authority.AuthorityUpdatePort;
 import org.indexmonitor.user.domain.aggregates.Authority;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -19,7 +21,7 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 class AuthoritySettingsUpdateInteractor extends Interactor implements AuthoritySettingsUpdateUseCase {
-
+    private final Logger logger = LoggerFactory.getLogger(AuthoritySettingsUpdateInteractor.class);
     private final AuthorityLoadPort authorityLoadPort;
     private final AuthorityUpdatePort authorityUpdatePort;
     private final AuthorityMapper authorityMapper;
@@ -31,6 +33,7 @@ class AuthoritySettingsUpdateInteractor extends Interactor implements AuthorityS
             tryUpdateAuthority(request);
             return onRequestSuccess();
         }catch (Exception e){
+            logger.debug(String.format("Failed to update settings for authority with ID '%s'. Exception message: '%s'.", request.getId() == null ? "null" : request.getId(), e.getMessage()));
             return onRequestFailure(e);
         }
     }

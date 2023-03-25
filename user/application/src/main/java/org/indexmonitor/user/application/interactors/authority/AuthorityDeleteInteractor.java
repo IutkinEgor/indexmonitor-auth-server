@@ -10,12 +10,14 @@ import org.indexmonitor.user.application.ports.in.authority.requests.AuthorityDe
 import org.indexmonitor.user.application.ports.out.authority.AuthorityDeletePort;
 import org.indexmonitor.user.application.ports.out.authority.AuthorityLoadPort;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
 class AuthorityDeleteInteractor extends Interactor implements AuthorityDeleteUseCase {
-
+    private final Logger logger = LoggerFactory.getLogger(AuthorityDeleteInteractor.class);
     private final AuthorityLoadPort authorityLoadPort;
     private final AuthorityDeletePort authorityDeletePort;
 
@@ -26,6 +28,7 @@ class AuthorityDeleteInteractor extends Interactor implements AuthorityDeleteUse
             tryDelete(request);
             return onRequestSuccess();
         }catch (Exception e){
+            logger.debug(String.format("Failed to delete authority with ID '%s'. Exception message: '%s'.", request.getId() == null ? "null" : request.getId(), e.getMessage()));
             return onRequestFailure(e);
         }
     }

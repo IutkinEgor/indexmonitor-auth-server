@@ -14,6 +14,9 @@ import org.indexmonitor.user.domain.aggregates.Authority;
 import org.indexmonitor.user.domain.aggregates.User;
 import org.indexmonitor.user.domain.valueObjects.UserAuthority;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -24,6 +27,7 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 class UserAuthoritiesAddInteractor extends Interactor implements UserAuthoritiesAddUseCase {
+    private final Logger logger = LoggerFactory.getLogger(UserAuthoritiesAddInteractor.class);
     private final UserLoadPort userLoadPort;
     private final UserUpdatePort userUpdatePort;
     private final AuthorityLoadPort authorityLoadPort;
@@ -37,6 +41,10 @@ class UserAuthoritiesAddInteractor extends Interactor implements UserAuthorities
             tryAddUserAuthorities(user, authorities);
             return onRequestSuccess();
         } catch (Exception e) {
+            logger.debug(String.format("Failed to update authorities for user with ID '%s'. Requested authorities IDs: '%s'. Exception message: '%s'.",
+                    request.getId() == null ? "null" : request.getId(),
+                    request.getAuthorityIds() == null ? "null" : request.getAuthorityIds(),
+                    e.getMessage()));
             return onRequestFailure(e);
         }
     }

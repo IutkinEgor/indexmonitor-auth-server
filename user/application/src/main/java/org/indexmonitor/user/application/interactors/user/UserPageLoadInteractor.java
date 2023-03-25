@@ -9,11 +9,14 @@ import org.indexmonitor.user.application.ports.in.user.responses.UserPageRespons
 import org.indexmonitor.user.application.ports.out.user.UserLoadPort;
 import org.indexmonitor.user.domain.aggregates.User;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
 class UserPageLoadInteractor extends Interactor implements UserPageLoadUseCase {
+    private final Logger logger = LoggerFactory.getLogger(UserPageLoadInteractor.class);
     private final UserLoadPort userLoadPort;
     @Override
     public BasePageResponse<UserPageResponse> load(UserPageLoadRequest request) {
@@ -21,6 +24,7 @@ class UserPageLoadInteractor extends Interactor implements UserPageLoadUseCase {
             request.validateSelf();
             return onPageRequestSuccess(UserPageResponse.map(tryLoadUsers(request)));
         }catch (Exception e){
+            logger.debug(String.format("Failed to load user page. Exception message: '%s'.", e.getMessage()));
             return onPageRequestFailure(e);
         }
     }

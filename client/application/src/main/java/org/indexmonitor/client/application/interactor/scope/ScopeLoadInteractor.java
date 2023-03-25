@@ -17,6 +17,8 @@ import org.indexmonitor.common.application.models.Interactor;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
 import org.indexmonitor.common.domain.valueObjects.BaseResponse;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -26,7 +28,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 class ScopeLoadInteractor extends Interactor implements ScopeLoadUseCase {
-
+    private final Logger logger = LoggerFactory.getLogger(ScopeLoadInteractor.class);
     private final ClientLoadPort clientLoadPort;
     private final ScopeLoadPort scopeLoadPort;
 
@@ -39,6 +41,7 @@ class ScopeLoadInteractor extends Interactor implements ScopeLoadUseCase {
             ).collect(Collectors.toSet());
             return onRequestSuccess(responses);
         }catch (Exception e){
+            logger.debug(String.format("Failed to load scope used by client for scope with ID '%s'. Exception message: '%s'.",request.getId() == null ? "null" : request.getId(), e.getMessage()));
             return onRequestFailure(e);
         }
     }
@@ -49,6 +52,7 @@ class ScopeLoadInteractor extends Interactor implements ScopeLoadUseCase {
             request.validateSelf();
             return new BaseResponse(ScopeResponse.map(tryLoadScope(request)));
         }catch (Exception e){
+            logger.debug(String.format("Failed to load scope. Exception message: '%s'.", e.getMessage()));
             return onRequestFailure(e);
         }
     }

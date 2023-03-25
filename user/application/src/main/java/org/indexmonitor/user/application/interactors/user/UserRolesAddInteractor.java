@@ -14,6 +14,8 @@ import org.indexmonitor.user.domain.aggregates.Role;
 import org.indexmonitor.user.domain.aggregates.User;
 import org.indexmonitor.user.domain.valueObjects.UserRole;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.Optional;
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 class UserRolesAddInteractor  extends Interactor implements UserRolesAddUseCase {
-
+    private final Logger logger = LoggerFactory.getLogger(UserRolesAddInteractor.class);
     private final UserLoadPort userLoadPort;
     private final UserUpdatePort userUpdatePort;
     private final RoleLoadPort roleLoadPort;
@@ -37,6 +39,10 @@ class UserRolesAddInteractor  extends Interactor implements UserRolesAddUseCase 
             tryAddUserRoles(user, roles);
             return onRequestSuccess();
         } catch (Exception e) {
+            logger.debug(String.format("Failed to update roles for user with ID '%s'. Requested roles IDs: '%s'. Exception message: '%s'.",
+                    request.getId() == null ? "null" : request.getId(),
+                    request.getRoleIds() == null ? "null" : request.getRoleIds(),
+                    e.getMessage()));
             return onRequestFailure(e);
         }
     }

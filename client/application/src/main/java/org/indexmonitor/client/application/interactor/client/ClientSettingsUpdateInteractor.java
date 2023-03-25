@@ -12,6 +12,8 @@ import org.indexmonitor.common.application.models.Interactor;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
 import org.indexmonitor.common.domain.valueObjects.BaseResponse;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,7 +21,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class ClientSettingsUpdateInteractor extends Interactor implements ClientSettingsUpdateUseCase {
-
+    private final Logger logger = LoggerFactory.getLogger(ClientSettingsUpdateInteractor.class);
     private final ClientLoadPort clientLoadPort;
     private final ClientUpdatePort clientUpdatePort;
     private final ClientMapper clientMapper;
@@ -32,6 +34,7 @@ public class ClientSettingsUpdateInteractor extends Interactor implements Client
             return onRequestSuccess();
         }
         catch (Exception e){
+            logger.debug(String.format("Failed to update settings for client with ID '%s'. Exception message: '%s'.", request.getId() == null ? "null" : request.getId(), e.getMessage()));
             return onRequestFailure(e);
         }
     }

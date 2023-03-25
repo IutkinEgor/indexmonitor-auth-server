@@ -13,12 +13,14 @@ import org.indexmonitor.user.application.ports.out.resetPassword.ResetPasswordLo
 import org.indexmonitor.user.application.ports.out.user.UserDeletePort;
 import org.indexmonitor.user.application.ports.out.user.UserLoadPort;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
 class UserDeleteInteractor extends Interactor implements UserDeleteUseCase {
-
+    private final Logger logger = LoggerFactory.getLogger(UserDeleteInteractor.class);
     private final UserLoadPort userLoadPort;
     private final UserDeletePort userDeletePort;
     private final ResetPasswordLoadPort resetPasswordLoadPort;
@@ -34,6 +36,7 @@ class UserDeleteInteractor extends Interactor implements UserDeleteUseCase {
             tryDeleteUser(request);
             return onRequestSuccess();
         }catch (Exception e){
+            logger.debug(String.format("Failed to delete user with ID '%s'. Exception message: '%s'.",  request.getId() == null ? "null" : request.getId(), e.getMessage()));
             return onRequestFailure(e);
         }
     }

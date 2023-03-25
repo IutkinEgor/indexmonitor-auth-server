@@ -18,12 +18,15 @@ import org.indexmonitor.user.domain.aggregates.User;
 import org.indexmonitor.user.domain.valueObjects.Password;
 import org.indexmonitor.user.domain.valueObjects.Recovery;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
 class UserRegisterManualInteractor extends Interactor implements UserRegisterManualUseCase {
+    private final Logger logger = LoggerFactory.getLogger(UserRegisterManualInteractor.class);
     private final UserLoadPort userLoadPort;
     private final UserRegisterPort userRegisterPort;
     private final UserMapper mapper;
@@ -42,6 +45,7 @@ class UserRegisterManualInteractor extends Interactor implements UserRegisterMan
             return onRequestSuccess();
         }
         catch (Exception e){
+            logger.debug(String.format("Failed to manual register user. Exception message: '%s'.", e.getMessage()));
             return onRequestFailure(e);
         }
     }

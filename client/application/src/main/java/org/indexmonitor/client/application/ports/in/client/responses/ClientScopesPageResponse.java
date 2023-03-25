@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClientScopesPageResponse {
-    private String id;
-    private String name;
+    private String scopeId;
+    private String scopeName;
 }

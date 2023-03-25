@@ -11,6 +11,8 @@ import org.indexmonitor.common.application.models.Interactor;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
 import org.indexmonitor.common.domain.valueObjects.BaseResponse;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,7 +20,7 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 class ScopeRegisterInteractor extends Interactor implements ScopeRegisterUseCase {
-
+    private final Logger logger = LoggerFactory.getLogger(ScopeRegisterInteractor.class);
     private final ScopeRegisterPort scopeRegisterPort;
     private final ScopeLoadPort scopeLoadPort;
     private final ScopeMapper mapper;
@@ -30,6 +32,7 @@ class ScopeRegisterInteractor extends Interactor implements ScopeRegisterUseCase
             tryRegisterScope(buildDefaultScope(request));
             return onRequestSuccess();
         }catch (Exception e){
+            logger.debug(String.format("Failed to register scope. Exception message: '%s'.", e.getMessage()));
             return onRequestFailure(e);
         }
     }

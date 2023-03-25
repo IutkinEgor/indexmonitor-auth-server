@@ -9,7 +9,7 @@ import org.indexmonitor.common.application.models.SelfValidator;
 @Setter
 public class UserProfileUpdateRequest extends SelfValidator<UserProfileUpdateRequest> {
     @NotBlank(message = "User Id can not be empty.")
-    private String userId;
+    private String id;
     @NotEmpty(message = "Given name field can not be empty.")
     @Size(min = 1, max = 255, message = "Length must be between 1 and 255 characters.")
     private String givenName;

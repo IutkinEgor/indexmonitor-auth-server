@@ -10,6 +10,8 @@ import org.indexmonitor.common.application.models.Interactor;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
 import org.indexmonitor.common.domain.valueObjects.BaseResponse;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 class ClientScopeLoadInteractor extends Interactor implements ClientScopeLoadUseCase {
-
+    private final Logger logger = LoggerFactory.getLogger(ClientScopeLoadInteractor.class);
     private final ClientLoadPort clientLoadPort;
 
     @Override
@@ -30,6 +32,7 @@ class ClientScopeLoadInteractor extends Interactor implements ClientScopeLoadUse
                     new ClientScopesPageResponse(scope.getId().getValue().toString(), scope.getName())).collect(Collectors.toSet()));
         }
         catch (Exception e){
+            logger.debug(String.format("Failed to load scopes for client with ID '%s'. Exception message: '%s'.", request.getId() == null ? "null" : request.getId(), e.getMessage()));
             return onRequestFailure(e);
         }
     }

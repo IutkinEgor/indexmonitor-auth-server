@@ -13,6 +13,8 @@ import org.indexmonitor.common.application.models.Interactor;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
 import org.indexmonitor.common.domain.valueObjects.BaseResponse;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -22,6 +24,7 @@ import java.util.Set;
 @Component
 @AllArgsConstructor
 class ClientScopeRemoveInteractor extends Interactor implements ClientScopeRemoveUseCase {
+    private final Logger logger = LoggerFactory.getLogger(ClientScopeRemoveInteractor.class);
     private final ClientLoadPort clientLoadPort;
     private final ClientUpdatePort clientUpdatePort;
     private final ScopeLoadPort scopeLoadPort;
@@ -36,6 +39,10 @@ class ClientScopeRemoveInteractor extends Interactor implements ClientScopeRemov
             return  onRequestSuccess();
         }
         catch (Exception e){
+            logger.debug(String.format("Failed to remove scopes for client with ID '%s'. Scopes IDs: '%s'. Exception message: '%s'.",
+                    request.getId() == null ? "null" : request.getId(),
+                    request.getScopeIds() == null ? "null" : request.getScopeIds(),
+                    e.getMessage()));
             return onRequestFailure(e);
         }
     }

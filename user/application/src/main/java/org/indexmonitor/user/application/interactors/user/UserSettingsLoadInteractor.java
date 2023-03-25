@@ -10,12 +10,15 @@ import org.indexmonitor.user.application.ports.in.user.responses.UserSettingsRes
 import org.indexmonitor.user.application.ports.out.user.UserLoadPort;
 import org.indexmonitor.user.domain.aggregates.User;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
 @AllArgsConstructor
 class UserSettingsLoadInteractor extends Interactor implements UserSettingsLoadUseCase {
+    private final Logger logger = LoggerFactory.getLogger(UserSettingsLoadInteractor.class);
     private final UserLoadPort userLoadPort;
     @Override
     public BaseResponse<UserSettingsResponse> load(UserLoadRequest request) {
@@ -24,6 +27,7 @@ class UserSettingsLoadInteractor extends Interactor implements UserSettingsLoadU
             request.validateSelf();
             return onRequestSuccess(UserSettingsResponse.map(tryLoadUser(request)));
         }catch (Exception e){
+            logger.debug(String.format("Failed to load settings for user with ID '%s'. Exception message: '%s'.", request.getId() == null ? "null" : request.getId(), e.getMessage()));
             return onRequestFailure(e);
         }
     }

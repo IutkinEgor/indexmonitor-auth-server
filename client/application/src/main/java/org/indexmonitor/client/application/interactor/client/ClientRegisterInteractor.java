@@ -17,6 +17,8 @@ import org.indexmonitor.common.domain.enums.EncryptionAlgorithm;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
 import org.indexmonitor.common.domain.valueObjects.BaseResponse;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,7 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 class ClientRegisterInteractor extends Interactor implements ClientRegisterUseCase {
-
+    private final Logger logger = LoggerFactory.getLogger(ClientRegisterInteractor.class);
     private final ClientRegisterPort clientRegisterPort;
     private final ClientLoadPort clientLoadPort;
     private final ScopeLoadPort scopeLoadPort;
@@ -44,6 +46,7 @@ class ClientRegisterInteractor extends Interactor implements ClientRegisterUseCa
             tryRegisterClient(user);
             return onRequestSuccess();
         }catch (Exception e){
+            logger.debug(String.format("Failed to register client. Exception message: '%s'.", e.getMessage()));
             return onRequestFailure(e);
         }
     }

@@ -10,6 +10,8 @@ import org.indexmonitor.user.application.ports.in.user.responses.UserAuthorities
 import org.indexmonitor.user.application.ports.out.user.UserLoadPort;
 import org.indexmonitor.user.domain.aggregates.User;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -18,6 +20,7 @@ import java.util.Set;
 @Component
 @AllArgsConstructor
 class UserAuthoritiesLoadInteractor extends Interactor implements UserAuthoritiesLoadUseCase {
+    private final Logger logger = LoggerFactory.getLogger(UserAuthoritiesLoadInteractor.class);
     private final UserLoadPort userLoadPort;
     @Override
     public BaseResponse<Set<UserAuthoritiesResponse>> load(UserLoadRequest request) {
@@ -26,6 +29,7 @@ class UserAuthoritiesLoadInteractor extends Interactor implements UserAuthoritie
             request.validateSelf();
             return onRequestSuccess(UserAuthoritiesResponse.map(tryLoadUser(request)));
         }catch (Exception e){
+            logger.debug(String.format("Failed to load authorities for user with ID '%s'. Exception message: '%s'.", request.getId() == null ? "null" : request.getId(), e.getMessage()));
             return onRequestFailure(e);
         }
     }

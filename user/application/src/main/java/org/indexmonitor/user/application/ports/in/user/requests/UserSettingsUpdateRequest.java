@@ -9,7 +9,7 @@ import org.indexmonitor.common.application.models.SelfValidator;
 @Setter
 public class UserSettingsUpdateRequest extends SelfValidator<UserSettingsUpdateRequest> {
     @NotBlank(message = "User Id can not be empty.")
-    private String userId;
+    private String id;
     @NotEmpty(message = "UserName field can not be empty.")
     @Pattern(regexp = "^[a-zA-Z0-9]+(?:[_.-][a-zA-Z0-9]+)*$", message = "UserName can contain latin script and special characters . - _")
     @Size(min = 6, max = 35, message = "Length must be between 6 and 35 characters.")
