@@ -213,6 +213,139 @@ public class User extends AggregateRoot<BaseId> {
                 .isEnabled(this.isEnabled)
                 .build();
     }
+    
+    public UserUpdateBuilder userUpdateBuilder(){
+        return new UserUpdateBuilder(this);
+    }
+    public static final class UserUpdateBuilder{
+        private User user;
+        private String userName;
+        private Password password;
+        private Set<UserAuthority> authorities;
+        private Set<UserRole> roles;
+        private Boolean isUserNonExpired;
+        private Boolean isUserNonLocked;
+        private Boolean isCredentialsNonExpired;
+        private Boolean isEnabled;
+        public UserUpdateBuilder(User user) {
+            this.user = user;
+            this.userName = user.getUserName();
+            this.password = user.getPassword();
+            this.authorities = user.getAuthorities();
+            this.roles = user.getRoles();
+            this.isUserNonExpired = user.isUserNonExpired();
+            this.isUserNonLocked = user.isUserNonLocked();
+            this.isCredentialsNonExpired = user.isCredentialsNonExpired();
+            this.isEnabled = user.isEnabled();
+        }
+        public UserUpdateBuilder userName(String val){
+            this.userName = val;
+            return this;
+        }
+        public UserUpdateBuilder password(Password val){
+            this.password = val;
+            return this;
+        }
+        public UserUpdateBuilder authorities(Set<UserAuthority> val){
+            this.authorities = val;
+            return this;
+        }
+        public UserUpdateBuilder roles(Set<UserRole> val){
+            this.roles = val;
+            return this;
+        }
+        public UserUpdateBuilder isUserNonExpired(Boolean val){
+            this.isUserNonExpired = val;
+            return this;
+        }
+        public UserUpdateBuilder isUserNonLocked(Boolean val){
+            this.isUserNonLocked = val;
+            return this;
+        }
+        public UserUpdateBuilder isCredentialsNonExpired(Boolean val){
+            this.isCredentialsNonExpired = val;
+            return this;
+        }
+        public UserUpdateBuilder isEnabled(Boolean val){
+            this.isEnabled = val;
+            return this;
+        }
+        public User build(){
+            return User.builder()
+                    .userId(this.user.getId())
+                    .userName(userName)
+                    .profile(this.user.getProfile())
+                    .password(password)
+                    .authorities(authorities)
+                    .roles(roles)
+                    .createdAt(this.user.getCreatedAt())
+                    .isUserNonLocked(isUserNonLocked)
+                    .isUserNonExpired(isUserNonExpired)
+                    .isCredentialsNonExpired(isCredentialsNonExpired)
+                    .isEnabled(isEnabled)
+                    .build();
+        }
+    }
+
+    public UserProfileUpdateBuilder userProfileUpdateBuilder(){
+        return new UserProfileUpdateBuilder(this);
+    }
+    public static final class UserProfileUpdateBuilder{
+        private User user;
+        private String givenName;
+        private String familyName;
+        private String email;
+        private Boolean isEmailConfirmed;
+
+        public UserProfileUpdateBuilder(User user) {
+            this.user = user;
+            this.givenName = user.getProfile().getGivenName();
+            this.familyName = user.getProfile().getFamilyName();
+            this.email = user.getProfile().getEmail();
+            this.isEmailConfirmed = user.getProfile().isEmailConfirmed();
+        }
+
+        public UserProfileUpdateBuilder givenName(String val){
+            this.givenName = val;
+            return this;
+        }
+        public UserProfileUpdateBuilder familyName(String val) {
+            this.familyName = val;
+            return this;
+        }
+        public UserProfileUpdateBuilder email(String val){
+            this.email = val;
+            return this;
+        }
+        public UserProfileUpdateBuilder isEmailConfirmed(Boolean val){
+            this.isEmailConfirmed = val;
+            return this;
+        }
+        public User build(){
+            UserProfile profile = UserProfile.builder()
+                    .profileId(this.user.getProfile().getId())
+                    .givenName(this.givenName)
+                    .familyName(this.familyName)
+                    .email(this.email)
+                    .emailConfirmed(this.isEmailConfirmed)
+                    .recovery(this.user.getProfile().getRecovery())
+                    .build();
+
+            return User.builder()
+                    .userId(this.user.getId())
+                    .userName(this.user.getUserName())
+                    .profile(profile)
+                    .password(this.user.getPassword())
+                    .authorities(this.user.getAuthorities())
+                    .roles(this.user.getRoles())
+                    .createdAt(this.user.getCreatedAt())
+                    .isUserNonLocked(this.user.isUserNonLocked())
+                    .isUserNonExpired(this.user.isCredentialsNonExpired())
+                    .isCredentialsNonExpired(this.user.isCredentialsNonExpired())
+                    .isEnabled(this.user.isEnabled())
+                    .build();
+        }
+    }
 
     public static final class Builder {
         private BaseId userId;

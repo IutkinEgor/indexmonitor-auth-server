@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UserSettingsResponse {
+    private Long createdAt;
     private String userName;
     private Boolean isUserNonExpired;
     private Boolean isUserNonLocked;
@@ -15,6 +16,7 @@ public class UserSettingsResponse {
 
     public static UserSettingsResponse map(User user){
         return UserSettingsResponse.builder()
+                .createdAt(user.getCreatedAt().toEpochMilli())
                 .userName(user.getUserName())
                 .isUserNonExpired(user.isUserNonExpired())
                 .isUserNonLocked(user.isUserNonLocked())

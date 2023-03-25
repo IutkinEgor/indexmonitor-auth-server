@@ -107,6 +107,11 @@ class UserLoadPersistenceService implements UserLoadPort {
         return userRepository.existsByEmail(email);
     }
 
+    @Override
+    public boolean isExistByUserName(String userName) {
+        return userRepository.existsByUserName(userName);
+    }
+
     private Set<UserRole> loadUserRoles(Set<String> userRoles){
         return roleRepository.findAllById(userRoles
                 .stream().map(UUID::fromString).collect(Collectors.toSet()))

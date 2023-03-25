@@ -28,7 +28,8 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     boolean existsByIdOrUsernameOrEmailMoreThanOne(@Param("id") UUID id, @Param("username") String username, @Param("email") String email);
     @Query("SELECT CASE WHEN COUNT(e) > 0 THEN 'true' ELSE 'false' END FROM UserEntity e WHERE e.profile.email = :email")
     boolean existsByEmail(@Param("email") String email);
-
+    @Query("SELECT CASE WHEN COUNT(e) > 0 THEN 'true' ELSE 'false' END FROM UserEntity e WHERE e.userName = :userName")
+    boolean existsByUserName(@Param("userName") String userName);
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("DELETE FROM UserEntity u WHERE u.userId = :userId")

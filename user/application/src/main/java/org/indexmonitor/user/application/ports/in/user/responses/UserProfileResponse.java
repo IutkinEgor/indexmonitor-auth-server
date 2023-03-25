@@ -15,7 +15,7 @@ public class UserProfileResponse {
     public static UserProfileResponse map(User user){
         return UserProfileResponse.builder()
                 .givenName(user.getProfile().getGivenName())
-                .familyName(user.getProfile().getGivenName())
+                .familyName(user.getProfile().getFamilyName())
                 .email(user.getProfile().getEmail() == null ? null : user.getProfile().getEmail())
                 .emailConfirmed(user.getProfile().isEmailConfirmed() == null ? false : user.getProfile().isEmailConfirmed())
                 .build();

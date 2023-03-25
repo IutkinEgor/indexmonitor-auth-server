@@ -10,6 +10,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class UserLoadRequest extends SelfValidator<UserLoadRequest> {
-    @NotBlank(message = "Client record Id can not be empty.")
+    @NotBlank(message = "User Id can not be empty.")
     private String id;
 }

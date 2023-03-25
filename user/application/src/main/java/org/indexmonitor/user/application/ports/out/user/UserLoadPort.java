@@ -21,4 +21,5 @@ public interface UserLoadPort extends Port {
     boolean isExistMoreThanOne(User user);
 
     boolean isExistByEmail(String email);
+    boolean isExistByUserName(String userName);
 }
