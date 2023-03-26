@@ -1,5 +1,6 @@
 package org.indexmonitor.user.adapter.out.persistence.mappers.impl;
 
+import org.indexmonitor.common.domain.valueObjects.BaseId;
 import org.indexmonitor.user.adapter.out.persistence.entities.ResetPasswordEntity;
 import org.indexmonitor.user.adapter.out.persistence.mappers.ResetPasswordPersistenceMapper;
 import org.indexmonitor.user.adapter.out.persistence.mappers.UserPersistenceMapper;
@@ -17,12 +18,13 @@ class ResetPasswordPersistenceMapperImpl implements ResetPasswordPersistenceMapp
     @Override
     public ResetPasswordEntity modelToEntity(ResetPassword model) {
         return  ResetPasswordEntity.builder()
-                .id(model.getId())
+                .id(ResetPasswordEntity.convertId(model.getId()))
                 .tokenHash(model.getToken().getTokenHash())
                 .tokenAlgorithm(model.getToken().getAlgorithm())
                 .issuedAt(model.getToken().getIssuedAt())
                 .expireAt(model.getToken().getExpireAt())
                 .user(userMapper.modelToEntity(model.getUser()))
+                .redirectUrl(model.getRedirectLink())
                 .build();
     }
 
@@ -34,6 +36,6 @@ class ResetPasswordPersistenceMapperImpl implements ResetPasswordPersistenceMapp
                 .issuedAt(entity.getIssuedAt())
                 .expireAt(entity.getExpireAt())
                 .build();
-        return new ResetPassword(entity.getId(),token,userMapper.entityToModel(entity.getUser()));
+        return new ResetPassword(userMapper.entityToModel(entity.getUser()),token,null, entity.getRedirectUrl());
     }
 }

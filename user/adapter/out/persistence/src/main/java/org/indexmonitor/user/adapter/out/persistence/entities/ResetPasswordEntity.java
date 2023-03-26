@@ -22,17 +22,18 @@ public class ResetPasswordEntity {
     private UUID id;
     @Column(unique = true, nullable = false)
     private String tokenHash;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EncryptionAlgorithm tokenAlgorithm;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private Instant issuedAt;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private Instant expireAt;
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", unique = true)
     private UserEntity user;
-
+    @Column
+    private String redirectUrl;
     public static UUID convertId(BaseId id){
         try{
             return UUID.fromString(id.getValue().toString());

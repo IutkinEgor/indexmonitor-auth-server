@@ -28,10 +28,8 @@ public class ConfirmEmailService {
 
     @Value("${app.email.confirmEmail.tokenTimeToLiveInSeconds}")
     private Integer tokenLiveTimeInSeconds;
-    @Value("${server.address}")
-    private String host;
-    @Value("${server.port}")
-    private String port;
+    @Value("${app.email.externalDomainAddress}")
+    private String externalDomainAddress;
     private final PasswordEncoder passwordEncoder;
     private final ConfirmEmailLoadPort confirmEmailLoadPort;
     private final ConfirmEmailStorePort confirmEmailStorePort;
@@ -72,7 +70,7 @@ public class ConfirmEmailService {
                         .issuedAt(Instant.now())
                         .expireAt(Instant.now().plusSeconds(tokenLiveTimeInSeconds))
                         .build();
-        String confirmEmailLink = String.format("%s:%s/confirm-email/callback?token=%s", host,port,token.getTokenEncoded());
+        String confirmEmailLink = String.format("%s/confirm-email/callback?token=%s", externalDomainAddress,token.getTokenEncoded());
         return new ConfirmEmail(user,token,confirmEmailLink,redirectLink);
     }
 
@@ -84,7 +82,7 @@ public class ConfirmEmailService {
     }
 
     private void sendConfirmEmailLink(ConfirmEmail confirmEmail){
-        confirmEmailSendPort.sendConfirmEmail(confirmEmail);
+        confirmEmailSendPort.send(confirmEmail);
     }
 
 }

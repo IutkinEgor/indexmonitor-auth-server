@@ -1,3 +1,7 @@
+#Spring profiles
+application-dev.properties
+application-prod.properties
+
 ### Java template
 # Compiled class file
 *.class
@@ -41,3 +45,4 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 prodBuild/**
+

@@ -12,10 +12,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AppFieldEquality(field = "confirmPassword", equalsTo = "password", message = "The password and confirm password do not match.")
-public class ResetPasswordUpdateRequest extends SelfValidator<ResetPasswordUpdateRequest> {
+public class UserPasswordResetCallbackRequest extends SelfValidator<UserPasswordResetCallbackRequest> {
 
-    @NotEmpty(message = "token field can not be empty.")
-    private String token;
+    @NotEmpty(message = "User Id can not be empty.")
+    private String userId;
 
     @NotEmpty(message = "Password field can not be empty.")
     @Size(min = 8, max = 35, message = "Length must be between 8 and 35 characters.")

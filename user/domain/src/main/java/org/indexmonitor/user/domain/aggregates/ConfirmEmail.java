@@ -5,8 +5,8 @@ import org.indexmonitor.common.domain.valueObjects.BaseId;
 import org.indexmonitor.user.domain.valueObjects.Token;
 
 public class ConfirmEmail extends AggregateRoot<BaseId> {
-    private final Token token;
     private final User user;
+    private final Token token;
     private final String confirmLink;
     private final String redirectLink;
 

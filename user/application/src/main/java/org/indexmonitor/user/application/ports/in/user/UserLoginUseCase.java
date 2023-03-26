@@ -6,5 +6,5 @@ import org.indexmonitor.user.application.ports.in.user.requests.UserLoginRequest
 
 public interface UserLoginUseCase extends UseCase {
 
-    BaseResponse loginEmail(UserLoginRequest command);
+    BaseResponse loginEmail(UserLoginRequest request);
 }
