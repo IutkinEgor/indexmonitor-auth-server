@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResetPasswordStartRequest extends SelfValidator<ResetPasswordStartRequest> {
+public class UserPasswordResetStartRequest extends SelfValidator<UserPasswordResetStartRequest> {
     @NotEmpty(message = "Email field can not be empty.")
     @Email(message = "Invalid email pattern.")
     private String email;

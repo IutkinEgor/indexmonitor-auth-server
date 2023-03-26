@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResetPasswordRegisterRequest extends SelfValidator<ResetPasswordRegisterRequest> {
+public class UserPasswordResetRequest extends SelfValidator<UserPasswordResetRequest> {
 
     @NotEmpty(message = "Email field can not be empty.")
     @Email(message = "Invalid email pattern.")
@@ -27,4 +27,6 @@ public class ResetPasswordRegisterRequest extends SelfValidator<ResetPasswordReg
     @NotEmpty(message = "Answer field can not be empty.")
     @Size(min = 8, max = 255, message = "Length must be between 8 and 255 characters.")
     private String recoveryQuestionAnswer;
+
+    private String redirectLink;
 }

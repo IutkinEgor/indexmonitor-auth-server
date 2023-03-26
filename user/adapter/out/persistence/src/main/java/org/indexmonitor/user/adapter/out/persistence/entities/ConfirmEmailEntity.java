@@ -32,7 +32,6 @@ public class ConfirmEmailEntity {
     private UserEntity user;
     @Column(nullable = false)
     private String redirectUrl;
-
     public static UUID convertId(BaseId id){
         try{
             return UUID.fromString(id.getValue().toString());

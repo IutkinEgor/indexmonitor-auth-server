@@ -1,12 +1,15 @@
 package org.indexmonitor.user.adapter.in.mvc.controllers;
 
+import lombok.AllArgsConstructor;
+import org.indexmonitor.common.domain.valueObjects.BaseId;
 import org.indexmonitor.common.domain.valueObjects.BaseResponse;
-import org.indexmonitor.user.application.ports.in.user.ResetPasswordUseCase;
-import org.indexmonitor.user.application.ports.in.user.requests.ResetPasswordUpdateRequest;
-import org.indexmonitor.user.application.ports.in.user.requests.ResetPasswordStartRequest;
-import org.indexmonitor.user.application.ports.in.user.requests.ResetPasswordRegisterRequest;
+import org.indexmonitor.user.application.ports.in.user.UserPasswordResetUseCase;
+import org.indexmonitor.user.application.ports.in.user.requests.UserPasswordResetCallbackRequest;
+import org.indexmonitor.user.application.ports.in.user.requests.UserPasswordResetStartRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.indexmonitor.user.application.ports.in.user.requests.UserPasswordResetRequest;
+import org.indexmonitor.user.application.ports.in.user.responses.UserPasswordResetResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,76 +17,71 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("reset-password")
+@AllArgsConstructor
 public class ResetPasswordController {
 
-    private final ResetPasswordUseCase resetPasswordUseCase;
-
-    public ResetPasswordController(ResetPasswordUseCase resetPasswordUseCase) {
-        this.resetPasswordUseCase = resetPasswordUseCase;
-    }
+    private final UserPasswordResetUseCase userPasswordResetUseCase;
 
     @GetMapping("step-1")
     public String showEmailForm(Model model){
-        model.addAttribute("startCommand", new ResetPasswordStartRequest());
+        model.addAttribute("request", new UserPasswordResetStartRequest());
         return "resetPassword/resetPasswordEmailForm";
     }
 
     @PostMapping("step-2")
-    public String showQuestionForm(@Valid @ModelAttribute("startCommand") ResetPasswordStartRequest startCommand,
+    public String showQuestionForm(@Valid @ModelAttribute("request") UserPasswordResetStartRequest request,
                                    BindingResult bindingResult, Model model, HttpSession session){
         if (bindingResult.hasErrors()) {
             return "resetPassword/resetPasswordEmailForm";
         }
-        BaseResponse<ResetPasswordRegisterRequest> response = resetPasswordUseCase.start(startCommand);
+        BaseResponse<UserPasswordResetResponse> response = userPasswordResetUseCase.loadUserInfo(request);
         if(response.isFailure()){
-            model.addAttribute("startCommand", new ResetPasswordStartRequest());
+            model.addAttribute("startCommand", new UserPasswordResetStartRequest());
             model.addAttribute("errorMessage", response.getMessage());
             return "resetPassword/resetPasswordEmailForm";
         }
 
         model.addAttribute("email", response.getData().getEmail());
         model.addAttribute("question", response.getData().getRecoveryQuestion());
-        session.setAttribute("command", response.getData());
+        session.setAttribute("response", response.getData());
 
         return "resetPassword/resetPasswordQuestionForm";
     }
 
     @PostMapping("step-3")
-    public String resetPassword(@ModelAttribute("answer") String answer,
-                                   BindingResult bindingResult, Model model, HttpSession session){
-
-        ResetPasswordRegisterRequest command = (ResetPasswordRegisterRequest) session.getAttribute("command");
-        command.setRecoveryQuestionAnswer(answer);
-        BaseResponse response = resetPasswordUseCase.sendToken(command);
+    public String resetPassword(@ModelAttribute("answer") String answer, Model model, HttpSession session){
+        UserPasswordResetResponse previousResponse = (UserPasswordResetResponse) session.getAttribute("response");
+        UserPasswordResetRequest request = new UserPasswordResetRequest(previousResponse.getEmail(),previousResponse.getRecoveryQuestion(),answer, "");
+        BaseResponse response = userPasswordResetUseCase.sendToken(request);
         if(response.isFailure()){
-            model.addAttribute("email", command.getEmail());
-            model.addAttribute("question", command.getRecoveryQuestion());
+            model.addAttribute("email", request.getEmail());
+            model.addAttribute("question", request.getRecoveryQuestion());
             model.addAttribute("errorMessage", response.getMessage());
             return "resetPassword/resetPasswordQuestionForm";
         }
         return "resetPassword/resetPasswordAccepted";
     }
 
-    @GetMapping()
+    @GetMapping("callback")
     public String validateToken(@RequestParam("token") String token,Model model, HttpSession session){
-        BaseResponse response = resetPasswordUseCase.validateToken(token);
+        BaseResponse<BaseId> response = userPasswordResetUseCase.validateToken(token);
         if(response.isFailure()){
             model.addAttribute("errorMessage", response.getMessage());
             return "error";
         }
-        session.setAttribute("token", token);
-        model.addAttribute("newPassword", new ResetPasswordUpdateRequest());
+        session.setAttribute("userId", response.getData().getValueAsString());
+        model.addAttribute("newPassword", new UserPasswordResetCallbackRequest());
         return "resetPassword/updatePasswordForm";
     }
 
     @PostMapping
-    public String updatePassword(@Valid @ModelAttribute("newPassword") ResetPasswordUpdateRequest command, BindingResult bindingResult, HttpSession session, Model model){
-        command.setToken((String)session.getAttribute("token"));
-        if(!command.isValid()){
-            command.setToken(null);
+    public String updatePassword(@Valid @ModelAttribute("newPassword") UserPasswordResetCallbackRequest request, BindingResult bindingResult, HttpSession session, Model model){
+        request.setUserId((String)session.getAttribute("userId"));
+        if(!request.isValid()){
+            request.setUserId(null);
             return "resetPassword/updatePasswordForm";
         }
-        BaseResponse response = resetPasswordUseCase.updatePassword(command);
+        BaseResponse response = userPasswordResetUseCase.updatePassword(request);
         if(response.isFailure()){
             model.addAttribute("errorMessage", response.getMessage());
             return "resetPassword/updatePasswordForm";

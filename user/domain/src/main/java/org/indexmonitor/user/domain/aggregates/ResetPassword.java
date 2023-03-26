@@ -1,27 +1,35 @@
 package org.indexmonitor.user.domain.aggregates;
 
 import org.indexmonitor.common.domain.models.AggregateRoot;
+import org.indexmonitor.common.domain.valueObjects.BaseId;
 import org.indexmonitor.user.domain.valueObjects.Token;
 
 import java.util.UUID;
 
-public class ResetPassword  extends AggregateRoot<UUID> {
-
-    private final Token token;
+public class ResetPassword  extends AggregateRoot<BaseId> {
     private final User user;
+    private final Token token;
+    private final String confirmLink;
+    private final String redirectLink;
 
-    public ResetPassword(UUID uuid, Token token, User user) {
-        super(uuid);
-        this.token = token;
+    public ResetPassword(User user,Token token, String confirmLink, String redirectLink) {
+        super(user.getId());
         this.user = user;
+        this.token = token;
+        this.confirmLink = confirmLink;
+        this.redirectLink = redirectLink;
     }
 
     public Token getToken() {
         return token;
     }
-
     public User getUser() {
         return user;
     }
-
+    public String getConfirmLink() {
+        return confirmLink;
+    }
+    public String getRedirectLink() {
+        return redirectLink;
+    }
 }
