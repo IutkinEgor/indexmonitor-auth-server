@@ -61,4 +61,52 @@ From the bottom to top, the sub-project dependency tree is growing, with the upp
 
 The Application sub-project is the main project and contains core logic implementation. It is designed with Clean Architecture and DDD pattern in mind and has a single-side dependency on Spring Boot to utilize IoC container and dependency injection principles. 
 
-![Architecture](https://user-images.githubusercontent.com/60474448/227837258-55ad671a-eef7-4d6a-b1ce-d71a564572e4.svg)
+![Application](https://user-images.githubusercontent.com/60474448/227878104-85ffe0ce-65e6-42a3-9fdd-0c4a52a4605f.png)
+
+# Building from Source
+
+By following these steps, you will be ready to run the server:
+
+1. Clone the repository.
+2. Set up the 'Run/Debug Configuration' in your IDE.
+   * The entire application runs as a single Spring context. The main method is located under the configuration:application subproject in the Application.java class. Configure it as the entry point.
+3. Configure the 'application-env.properties' file.
+   - Under the configuration:application subproject in the resource folder, you will find the application.properties file. It has some preset data and uses the spring.profiles.active=dev property that you will not find because it contains sensitive data. You need to provide your configuration in application.properties (not recommended) or create a separate file, application-dev.properties (recommended).
+   - Recommended way: create the application-dev.properties file in the resource folder and insert this code. Provide the required fields.
+  ```properties
+  #JPA and DataBase connection settings
+  spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+  spring.datasource.url=jdbc:postgresql://localhost:8020/auth
+  spring.datasource.username=postgres
+  spring.datasource.password=postgres
+  spring.jpa.generate-ddl=true
+  spring.jpa.hibernate.ddl-auto=update
+
+  #CORS origin allowed list
+  app.cors.origin.list=http://localhost:4200
+
+  #Email service settings
+  app.email.externalDomainAddress=http://localhost:8080
+  #SMTP server connection settings
+  spring.mail.username=
+  spring.mail.password=
+  spring.mail.host=smtp.gmail.com
+  spring.mail.port=587
+  spring.mail.protocol=smtp
+  spring.mail.properties.mail.smtp.auth=true
+  spring.mail.properties.mail.smtp.starttls.enable=true
+
+  #Inital data seeding settings
+  app.data.seed.user.enable = true
+  app.data.seed.user.username = manager
+  app.data.seed.user.password = manager1234
+  app.data.seed.user.givenName = manager
+  app.data.seed.user.familyName = manager
+  app.data.seed.user.email = manager@manager.com
+
+  # Authorization Server UI client
+  app.data.seed.client.enable = true
+  app.data.seed.client.domain = http://localhost:4200
+  ```
+  4. Make sure your database connection and SMTP server user are configured correctly, and then run the application.
+
