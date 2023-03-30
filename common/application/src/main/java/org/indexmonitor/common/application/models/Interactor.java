@@ -12,7 +12,6 @@ import org.indexmonitor.common.domain.valueObjects.BaseResponse;
 import java.util.Set;
 
 public abstract class Interactor {
-
     protected <T> BaseResponse<T> onRequestSuccess(){
         return new BaseResponse<T>(null);
     }

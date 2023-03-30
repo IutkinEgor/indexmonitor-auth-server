@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
@@ -32,6 +33,9 @@ class AuthAppSecurityConfig {
     SecurityFilterChain apiFilter(HttpSecurity http) throws Exception {
         http.cors().configurationSource(corsConfigurationSource)
                 .and()
+                .sessionManagement((session) -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests()
                 .requestMatchers("/api/**").authenticated()
