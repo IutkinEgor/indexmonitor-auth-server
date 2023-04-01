@@ -5,6 +5,8 @@ repositories {
 ext{
     lombokVersion = '1.18.24'
     springBootVersion = '3.0.1'
+    springSessionRedisVersion = '3.0.1'
+    springDataRedisVersion = '3.0.5'
     springConfigClientVersion = '4.0.2'
     springSecurityAuthServer = '1.0.0'
     postgresqlVersion = '42.5.1'
@@ -14,6 +16,7 @@ ext{
     springContext = '6.0.4'
     springSecurity = '6.0.1'
     openapiWebMvcUI = '2.0.2'
+    nimbusdsJoseJwtVersion = '9.31'
     // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-config-client
 }
 

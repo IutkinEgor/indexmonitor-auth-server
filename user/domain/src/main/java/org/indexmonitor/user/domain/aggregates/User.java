@@ -7,6 +7,7 @@ import org.indexmonitor.user.domain.valueObjects.Password;
 import org.indexmonitor.user.domain.valueObjects.UserAuthority;
 import org.indexmonitor.user.domain.valueObjects.UserRole;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -129,51 +130,51 @@ public class User extends AggregateRoot<BaseId> {
                 .profile(this.profile)
                 .build();
     }
-    public User updateIsNonLocked(boolean nonLocked){
-        return User.builder()
-                .userId(this.getId())
-                .userName(this.getUserName())
-                .profile(this.getProfile())
-                .password(this.password)
-                .authorities(this.authorities)
-                .roles(this.roles)
-                .createdAt(this.getCreatedAt())
-                .isUserNonLocked(nonLocked)
-                .isUserNonExpired(this.isUserNonExpired)
-                .isCredentialsNonExpired(this.isCredentialsNonExpired)
-                .isEnabled(this.isEnabled)
-                .build();
-    }
-    public User updateIsNonExpired(boolean nonExpired){
-        return User.builder()
-                .userId(this.getId())
-                .userName(this.getUserName())
-                .profile(this.getProfile())
-                .password(this.password)
-                .authorities(this.authorities)
-                .roles(this.roles)
-                .createdAt(this.getCreatedAt())
-                .isUserNonLocked(this.isUserNonLocked)
-                .isUserNonExpired(nonExpired)
-                .isCredentialsNonExpired(this.isCredentialsNonExpired)
-                .isEnabled(this.isEnabled)
-                .build();
-    }
-    public User updateIsCredentialsNonExpired(boolean credentialsNonExpired){
-        return User.builder()
-                .userId(this.getId())
-                .userName(this.getUserName())
-                .profile(this.getProfile())
-                .password(this.password)
-                .authorities(this.authorities)
-                .roles(this.roles)
-                .createdAt(this.getCreatedAt())
-                .isUserNonLocked(this.isUserNonLocked)
-                .isUserNonExpired(this.isCredentialsNonExpired)
-                .isCredentialsNonExpired(credentialsNonExpired)
-                .isEnabled(this.isEnabled)
-                .build();
-    }
+//    public User updateIsNonLocked(boolean nonLocked){
+//        return User.builder()
+//                .userId(this.getId())
+//                .userName(this.getUserName())
+//                .profile(this.getProfile())
+//                .password(this.password)
+//                .authorities(this.authorities)
+//                .roles(this.roles)
+//                .createdAt(this.getCreatedAt())
+//                .isUserNonLocked(nonLocked)
+//                .isUserNonExpired(this.isUserNonExpired)
+//                .isCredentialsNonExpired(this.isCredentialsNonExpired)
+//                .isEnabled(this.isEnabled)
+//                .build();
+//    }
+//    public User updateIsNonExpired(boolean nonExpired){
+//        return User.builder()
+//                .userId(this.getId())
+//                .userName(this.getUserName())
+//                .profile(this.getProfile())
+//                .password(this.password)
+//                .authorities(this.authorities)
+//                .roles(this.roles)
+//                .createdAt(this.getCreatedAt())
+//                .isUserNonLocked(this.isUserNonLocked)
+//                .isUserNonExpired(nonExpired)
+//                .isCredentialsNonExpired(this.isCredentialsNonExpired)
+//                .isEnabled(this.isEnabled)
+//                .build();
+//    }
+//    public User updateIsCredentialsNonExpired(boolean credentialsNonExpired){
+//        return User.builder()
+//                .userId(this.getId())
+//                .userName(this.getUserName())
+//                .profile(this.getProfile())
+//                .password(this.password)
+//                .authorities(this.authorities)
+//                .roles(this.roles)
+//                .createdAt(this.getCreatedAt())
+//                .isUserNonLocked(this.isUserNonLocked)
+//                .isUserNonExpired(this.isCredentialsNonExpired)
+//                .isCredentialsNonExpired(credentialsNonExpired)
+//                .isEnabled(this.isEnabled)
+//                .build();
+//    }
     public User updateIsEnable(boolean enable){
         return User.builder()
                 .userId(this.getId())

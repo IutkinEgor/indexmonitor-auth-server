@@ -5,6 +5,8 @@ import org.indexmonitor.common.domain.models.BaseEntity;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
 import org.indexmonitor.user.domain.valueObjects.Recovery;
 
+import java.io.Serializable;
+
 public class UserProfile extends BaseEntity<BaseId> {
 
     private final String givenName;

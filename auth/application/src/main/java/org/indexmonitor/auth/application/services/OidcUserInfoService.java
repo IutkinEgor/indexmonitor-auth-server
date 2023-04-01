@@ -1,5 +1,6 @@
 package org.indexmonitor.auth.application.services;
 
+import org.indexmonitor.auth.application.models.UserAccountDetails;
 import org.indexmonitor.user.domain.aggregates.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
@@ -12,30 +13,28 @@ import java.util.Set;
 @AllArgsConstructor
 public class OidcUserInfoService {
 
-        public OidcUserInfo buildUserInfo(User user, Set<String> scopes) {
+        public OidcUserInfo buildUserInfo(UserAccountDetails user, Set<String> scopes) {
             return build(user,scopes);
         }
 
-
-        private OidcUserInfo build(User user, Set<String> scopes){
+        private OidcUserInfo build(UserAccountDetails user, Set<String> scopes){
 
             OidcUserInfo.Builder userInfoBuilder = OidcUserInfo.builder();
 
             if(scopes.contains(OidcScopes.OPENID))
             {
-                userInfoBuilder.subject(user.getId().getValueAsString());
+                userInfoBuilder.subject(user.getUserId());
             }
             if(scopes.contains(OidcScopes.PROFILE))
             {
-                userInfoBuilder.nickname(user.getUserName());
-                userInfoBuilder.givenName(user.getProfile().getGivenName());
-                userInfoBuilder.familyName(user.getProfile().getFamilyName());
-                userInfoBuilder.name(user.getProfile().getGivenName() + " " + user.getProfile().getFamilyName());
+                userInfoBuilder.nickname(user.getUsername());
+                userInfoBuilder.givenName(user.getGivenName());
+                userInfoBuilder.familyName(user.getFamilyName());
+                userInfoBuilder.name(user.getGivenName() + " " + user.getFamilyName());
             }
             if(scopes.contains(OidcScopes.EMAIL))
             {
-                userInfoBuilder.email(user.getProfile().getEmail());
-                userInfoBuilder.emailVerified(user.getProfile().isEmailConfirmed());
+                userInfoBuilder.email(user.getEmail());
             }
             return userInfoBuilder.build();
         }
