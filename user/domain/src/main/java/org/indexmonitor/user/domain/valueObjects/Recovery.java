@@ -2,6 +2,8 @@ package org.indexmonitor.user.domain.valueObjects;
 
 import org.indexmonitor.common.domain.enums.EncryptionAlgorithm;
 
+import java.io.Serializable;
+
 public class Recovery {
     private final String question;
     private final String answer;

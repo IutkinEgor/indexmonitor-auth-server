@@ -38,5 +38,11 @@ dependencies {
 
     implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     implementation "org.springframework.cloud:spring-cloud-config-client:${springConfigClientVersion}"
+    implementation "org.springframework.session:spring-session-data-redis:${springSessionRedisVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-redis:${springDataRedisVersion}"
+// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-resource-server
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.0.5'
+
+
 }
 
