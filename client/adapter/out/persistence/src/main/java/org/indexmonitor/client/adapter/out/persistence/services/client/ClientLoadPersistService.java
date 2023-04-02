@@ -8,6 +8,7 @@ import org.indexmonitor.client.application.ports.out.client.ClientLoadPort;
 import org.indexmonitor.client.domain.aggregates.Client;
 import org.indexmonitor.client.domain.aggregates.Scope;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
+import org.indexmonitor.common.domain.valueObjects.BasePage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -30,15 +31,9 @@ class ClientLoadPersistService implements ClientLoadPort {
     }
 
     @Override
-    public Set<Client> findAll(Integer offset, Integer limit) {
-        if (offset == null || offset < 0) {
-            throw new IllegalArgumentException("Offset can not be less than 0.");
-        }
-        if (limit == null || limit < 1) {
-            throw new IllegalArgumentException("Limit can not be less than 1.");
-        }
-        Page<ClientEntity> entity = repository.findAll(PageRequest.of(offset,limit, Sort.by(Sort.Direction.ASC,"issuedAt")));
-        return entity.stream().map(client -> mapper.entityToModel(client)).collect(Collectors.toCollection(LinkedHashSet::new));
+    public BasePage<Client> findAll(Integer page, Integer size) {
+        Page<ClientEntity> entities = repository.findAll(PageRequest.of(page,size, Sort.by(Sort.Direction.ASC, "issuedAt")));
+        return mapper.entityToModel(entities);
     }
     @Override
     public Set<Client> findAllByScopeId(BaseId scopeId) {

@@ -4,6 +4,7 @@ import org.indexmonitor.client.application.ports.in.client.ClientPageLoadUseCase
 import org.indexmonitor.client.application.ports.in.client.requests.ClientLoadPageRequest;
 import org.indexmonitor.client.application.ports.in.client.responses.ClientPageModelResponse;
 import org.indexmonitor.common.adapter.in.api.utils.AccessControlUtil;
+import org.indexmonitor.common.domain.valueObjects.BasePageResponse;
 import org.indexmonitor.common.domain.valueObjects.BaseResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,11 +26,11 @@ public class ClientPageLoadController {
     private final ClientPageLoadUseCase clientPageLoadUseCase;
 
     @GetMapping
-    public ResponseEntity<BaseResponse<Set<ClientPageModelResponse>>> findAll(
+    public ResponseEntity<BasePageResponse<ClientPageModelResponse>> findAll(
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size){
         AccessControlUtil.builder().hasAllRoles(REQUIRED_ROLES).hasAllAuthorities(REQUIRED_AUTHORITIES).validate();
-        BaseResponse<Set<ClientPageModelResponse>> response = clientPageLoadUseCase.load(new ClientLoadPageRequest(
+        BasePageResponse<ClientPageModelResponse> response = clientPageLoadUseCase.load(new ClientLoadPageRequest(
                 page != null ? page : ClientLoadPageRequest.DEFAULT_PAGE_VALUE,
                 size != null ? size :  ClientLoadPageRequest.DEFAULT_SIZE_VALUE));
         return new ResponseEntity<>(response, response.isSuccess() ? HttpStatus.OK : HttpStatus.BAD_REQUEST);

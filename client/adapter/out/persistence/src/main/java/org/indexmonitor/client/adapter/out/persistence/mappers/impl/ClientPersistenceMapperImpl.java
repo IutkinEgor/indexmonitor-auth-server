@@ -1,5 +1,6 @@
 package org.indexmonitor.client.adapter.out.persistence.mappers.impl;
 
+import lombok.AllArgsConstructor;
 import org.indexmonitor.client.adapter.out.persistence.entities.ClientEntity;
 import org.indexmonitor.client.adapter.out.persistence.mappers.ClientPersistenceMapper;
 import org.indexmonitor.client.adapter.out.persistence.mappers.ClientSettingsPersistenceMapper;
@@ -7,10 +8,12 @@ import org.indexmonitor.client.adapter.out.persistence.mappers.ClientTokenSettin
 import org.indexmonitor.client.adapter.out.persistence.mappers.ScopePersistenceMapper;
 import org.indexmonitor.client.domain.aggregates.Client;
 import org.indexmonitor.client.domain.valueObjects.ClientSecret;
-import lombok.AllArgsConstructor;
+import org.indexmonitor.common.domain.valueObjects.BasePage;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
+import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 
 @Component
@@ -56,6 +59,16 @@ class ClientPersistenceMapperImpl implements ClientPersistenceMapper {
                 .scopes(entity.getScopes().stream().map(scope -> scopePersistenceMapper.entityToModel(scope)).collect(Collectors.toSet()))
                 .clientSettings(clientSettingsPersistenceMapper.entityToModel(entity.getClientSettings()))
                 .tokenSettings(clientTokenSettingsPersistenceMapper.entityToModel(entity.getTokenSettings()))
+                .build();
+    }
+
+    @Override
+    public BasePage<Client> entityToModel(Page<ClientEntity> entities) {
+        return BasePage.<Client>builder()
+                .elements(entities.getContent().stream().map(entity -> entityToModel(entity)).collect(Collectors.toCollection(LinkedHashSet::new)))
+                .totalCount(entities.getTotalElements())
+                .currentPage(entities.getPageable().getPageNumber())
+                .currentSize(entities.getPageable().getPageSize())
                 .build();
     }
 }

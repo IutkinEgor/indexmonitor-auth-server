@@ -6,6 +6,8 @@ import org.indexmonitor.client.application.ports.in.client.responses.ClientPageM
 import org.indexmonitor.client.application.ports.out.client.ClientLoadPort;
 import org.indexmonitor.client.domain.aggregates.Client;
 import org.indexmonitor.common.application.models.Interactor;
+import org.indexmonitor.common.domain.valueObjects.BasePage;
+import org.indexmonitor.common.domain.valueObjects.BasePageResponse;
 import org.indexmonitor.common.domain.valueObjects.BaseResponse;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -21,18 +23,17 @@ class ClientPageLoadInteractor extends Interactor implements ClientPageLoadUseCa
     private final ClientLoadPort clientLoadPort;
 
     @Override
-    public BaseResponse<Set<ClientPageModelResponse>> load(ClientLoadPageRequest request) {
+    public BasePageResponse<ClientPageModelResponse> load(ClientLoadPageRequest request) {
         try {
             request.validateSelf();
-            return onRequestSuccess(ClientPageModelResponse.map(tryLoadClientPage(request)));
+            return onPageRequestSuccess(ClientPageModelResponse.map(tryLoadClientPage(request)));
         }catch (Exception e){
             logger.debug(String.format("Failed to load client page. Exception message: '%s'.", e.getMessage()));
-            return onRequestFailure(e);
+            return onPageRequestFailure(e);
         }
     }
 
-    Set<Client> tryLoadClientPage(ClientLoadPageRequest request){
-        Set<Client> clients = clientLoadPort.findAll(request.getOffset(), request.getLimit());
-        return clients;
+    BasePage<Client> tryLoadClientPage(ClientLoadPageRequest request){
+        return clientLoadPort.findAll(request.getOffset(), request.getLimit());
     }
 }
