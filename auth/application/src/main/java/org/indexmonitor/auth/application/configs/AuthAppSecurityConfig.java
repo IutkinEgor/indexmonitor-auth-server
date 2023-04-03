@@ -1,9 +1,9 @@
 package org.indexmonitor.auth.application.configs;
 
-import org.indexmonitor.auth.application.models.UserAccountDetails;
-import org.indexmonitor.auth.application.services.OidcUserInfoService;
-import org.indexmonitor.auth.application.services.AppUserDetailsService;
 import lombok.AllArgsConstructor;
+import org.indexmonitor.auth.application.models.UserAccountDetails;
+import org.indexmonitor.auth.application.services.AppUserDetailsService;
+import org.indexmonitor.auth.application.services.OidcUserInfoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -41,13 +41,10 @@ class AuthAppSecurityConfig {
                 })
                 .exceptionHandling((exceptions) -> {
                             System.out.println("Exception handler: " + exceptions);
-//                            exceptions.authenticationEntryPoint(
-//                                    new AppAuthenticationEntryPoint());
                         }
                 );
         return http.build();
     }
-
     @Bean
     @Order(3)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -62,6 +59,7 @@ class AuthAppSecurityConfig {
                 .formLogin().loginPage("/login").usernameParameter("email");
         return http.build();
     }
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -78,13 +76,13 @@ class AuthAppSecurityConfig {
     public OAuth2TokenCustomizer<JwtEncodingContext> auth2TokenCustomizer(OidcUserInfoService oidcUserInfoService){
         return context -> {
             if(OAuth2TokenType.ACCESS_TOKEN.getValue().equals(context.getTokenType().getValue())){
-                context.getClaims().subject(((UserAccountDetails) context.getPrincipal().getPrincipal()).getUser().getId().getValueAsString());
-                context.getClaims().claim("roles", ((UserAccountDetails) context.getPrincipal().getPrincipal()).getUser().getRolesNames());
-                context.getClaims().claim("authorities", ((UserAccountDetails) context.getPrincipal().getPrincipal()).getUser().getAuthoritiesNames());
+                context.getClaims().subject(((UserAccountDetails) context.getPrincipal().getPrincipal()).getUserId());
+                context.getClaims().claim("roles", ((UserAccountDetails) context.getPrincipal().getPrincipal()).getRolesName());
+                context.getClaims().claim("authorities", ((UserAccountDetails) context.getPrincipal().getPrincipal()).getAuthoritiesName());
             }
             if (OidcParameterNames.ID_TOKEN.equals(context.getTokenType().getValue())) {
                 OidcUserInfo userInfo = oidcUserInfoService.buildUserInfo(
-                        ((UserAccountDetails) context.getPrincipal().getPrincipal()).getUser(),
+                        ((UserAccountDetails) context.getPrincipal().getPrincipal()),
                         context.getAuthorizedScopes());
                 context.getClaims().claims(claims ->
                         claims.putAll(userInfo.getClaims()));

@@ -1,6 +1,7 @@
 #Spring profiles
-application-dev.properties
-application-prod.properties
+application-dev.yml
+application-local.yml
+application-prod.yml
 
 ### Java template
 # Compiled class file

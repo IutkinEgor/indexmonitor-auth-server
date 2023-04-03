@@ -3,6 +3,7 @@ package org.indexmonitor.user.domain.valueObjects;
 import org.indexmonitor.common.domain.models.ValueObject;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 public class UserRole extends ValueObject {

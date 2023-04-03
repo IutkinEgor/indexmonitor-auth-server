@@ -1,0 +1,12 @@
+:root {
+    --app-background-color: #f4f4f4;
+    --app-primary-dark-color: #3f3d56;
+    --app-primary-color: #4b4966;
+    --app-primary-light-color: #69668f;
+    --app-accent-color: #ffd763;
+    --app-accent-light: #ffe496;
+    --app-info-color: #3ab9d9;
+    --app-success-color: #3ad44f;
+    --app-error-color: #855959;
+}
+

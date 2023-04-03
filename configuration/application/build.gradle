@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.springframework.boot' version "$springBootVersion"
+    id 'io.spring.dependency-management' version '1.1.0'
 }
 
 jar {
@@ -37,5 +38,16 @@ dependencies {
     implementation project(":user:application")
 
     implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    implementation "org.springframework.cloud:spring-cloud-config-client:${springConfigClientVersion}"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${springEurekaClientVersion}"
+    implementation "org.springframework.session:spring-session-data-redis:${springSessionRedisVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-redis:${springDataRedisVersion}"
+    implementation "org.springframework.session:spring-session-data-redis:${springSessionRedisVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-redis:${springDataRedisVersion}"
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}

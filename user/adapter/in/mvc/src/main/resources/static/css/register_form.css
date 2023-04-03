@@ -1,21 +1,15 @@
-:root {
-    --black: #4b4966;
-    --black-light: #615e84;
-    --back-ground: #eeeeee;
-    --yellow-light: #ffd763;
-    --yellow-shadow: #ffe496;
-}
+@import "_variables.css";
 
-.form-control:focus{border-color: var(--yellow-light);  box-shadow: 0 0 0 0.1rem var(--yellow-shadow);}
+.form-control:focus{border-color: var(--app-accent-color);  box-shadow: 0 0 0 0.1rem var(--app-accent-light);}
 
 .input-group-text{
-    background-color: var(--yellow-light)
+    background-color: var(--app-accent-color)
 }
 
-.greating{
-    color: var(--black);
+.greeting{
+    color: var(--app-primary-light-color);
 }
 
 body{
-    background-color: var(--black);
+    background-color: var(--app-primary-light-color);
 }

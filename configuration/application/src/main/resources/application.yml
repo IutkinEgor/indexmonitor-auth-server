@@ -1,0 +1,111 @@
+server:
+  address: localhost
+  port: 8080
+# Spring config
+spring:
+  profiles:
+    active: local
+  application:
+    name:
+# Configuration server connection
+  config:
+    name:
+    import:
+  # Session storage
+  data:
+    redis:
+      host:
+      port:
+      username:
+      password:
+    session:
+      store-type:
+  # Database connection
+  datasource:
+    driver-class-name:
+    url:
+    username:
+    password:
+  jpa:
+    properties:
+      hibernate:
+        dialect:
+    hibernate:
+      ddl-auto:
+    show-sql: false
+    generate-ddl: false
+  # SMTP server connection settings
+  mail:
+    username: ""
+    password: ""
+    host:
+    port: 587
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+# Discovery server connection
+eureka:
+  client:
+    enabled: false
+    service-url:
+      defaultZone:
+# Logging level settings
+logging:
+  level:
+    root: INFO
+    org.springframework.security: INFO
+    org.indexmonitor: TRACE
+# Application settings
+app:
+  # CORS origin allowed list
+  cors:
+    origin:
+      list:
+  # RSA key pare for JWT token signature
+  security:
+    jwt:
+      keyID:
+      publicKey: |
+      privateKey: |
+  # Email service settings
+  email:
+    enable: true
+    confirmEmail:
+      tokenTimeToLiveInSeconds: 3600
+    resetPassword:
+      tokenTimeToLiveInSeconds: 3600
+    externalDomainAddress:
+  data:
+    seed:
+      user:
+        enable: false
+        username: manager
+        password: manager
+        givenName: user
+        familyName: user
+        email: manager@gmail.com
+        recovery:
+          question: Provide generated key.
+      role:
+        enable: false
+        set: client-manager,scope-manager,user-manager,role-manager,authority-manager
+      authority:
+        enable: false
+        set: create,read,update,delete
+      client:
+        enable: false
+        clientId: angular_ui_none
+        name: Angular 15 | Authentication method NONE
+        description: SPA ui for authorization server build with Angular 15.
+        authenticationMethod: none
+        grantType: authorization_code
+        origin: http://localhost:4200
+        redirectUris: http://localhost:4200/auth/callback
+        scopes: openid,profile
+      scope:
+        enable: false
+        set: openid,profile,email
