@@ -1,6 +1,6 @@
-# Indexmonitor Authorization Server
+# <img src="https://github.com/IutkinEgor/indexmonitor-assets/blob/main/logo/logo-primary.svg" height="60px"> Indexmonitor Authorization Server
 
-The Indexmonitor Authorization Server is powered by Spring Boot and Spring Authorization Server projects, and is developed and contributed as a part of the Indexmonitor project. It provides OAuth 2.1 authorization flow, exposes REST API, and includes built-in MVC templates powered by the Thymeleaf Engine and Bootstrap 5.0 styling.
+The Indexmonitor Authorization Server is powered by Spring Boot and Spring Authorization Server projects, and is developed and contributed as a part of the Indexmonitor project. It provides OAuth 2.1 authorization flow, exposes REST API, and includes built-in MVC templates powered by the Thymeleaf Engine and Bootstrap 5.0 styling. The server is stateless, which means it doesn't store any user session information on the server. Instead, it utilizes Redis database to store user sessions. Also it includes a discovery server (Eureka) and config server dependencies to enable smooth horizontal scaling.
 
 ## Feature support
 
@@ -29,11 +29,11 @@ The server provides several built-in HTML pages built with Spring MVC:
 The project is still in development mode and has a number of unsolved problems: 
 
 * The user personal area page is not yet presented
-* User logout request does not clean up the session on the server
+* User logout request does not clean up the session on the server.
 
 ## UI
 
-The Indexmonitor team has developed a UI powered by Angular 15 for the authorization server, providing a clean user experience. You can find this under the Indexmonitor Authorization Client project.
+The Indexmonitor team has developed a UI powered by Angular 15 for the authorization server, providing a clean user experience. You can find this under the   [Indexmonitor Authorization Client](https://github.com/IutkinEgor/indexmonitor-auth-client) project.
 
 ## Architecture
 
