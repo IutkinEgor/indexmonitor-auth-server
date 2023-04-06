@@ -1,25 +1,17 @@
 plugins {
     id 'java'
     id 'org.springframework.boot' version "$springBootVersion"
-    id 'io.spring.dependency-management' version '1.1.0'
+    id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
 }
 
-jar {
-    baseName = 'application'
-    version = '0.0.1'
+ext {
+    appName = 'im-auth-server'
+    appVersion = '0.1.0'
+    appMainClass = 'org.indexmonitor.configuration.application.Application'
 }
-
 
 repositories {
     mavenCentral()
-}
-//jar {
-//    manifest {
-//        attributes 'Main-Class': 'org.indexmonitor.configuration.application.Application'
-//    }
-//}
-bootJar {
-    mainClass = 'org.indexmonitor.configuration.application.Application'
 }
 
 dependencies {
@@ -42,12 +34,32 @@ dependencies {
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${springEurekaClientVersion}"
     implementation "org.springframework.session:spring-session-data-redis:${springSessionRedisVersion}"
     implementation "org.springframework.boot:spring-boot-starter-data-redis:${springDataRedisVersion}"
-    implementation "org.springframework.session:spring-session-data-redis:${springSessionRedisVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-data-redis:${springDataRedisVersion}"
 }
 
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+
+task buildAndPutInDockerRoot(type: GradleBuild) {
+    def outputDir = file("$rootDir/docker/")
+    buildFile = 'build.gradle'
+    bootJar {
+        baseName = appName
+        version = appVersion
+        mainClass = appMainClass
+    }
+    tasks = ['bootJar']
+    doFirst {
+        delete fileTree(outputDir).include('*.jar')
+    }
+    doLast {
+        copy {
+            from "$rootDir/configuration/application/build/libs"
+            into outputDir
+            include "*${appVersion}.jar"
+        }
     }
 }

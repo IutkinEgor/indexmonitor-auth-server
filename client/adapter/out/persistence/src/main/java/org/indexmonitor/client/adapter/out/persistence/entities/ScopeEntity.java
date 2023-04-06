@@ -22,6 +22,7 @@ public class ScopeEntity {
     private UUID id;
     @Column(unique = true, nullable = false)
     private String name;
+    @Column(length = 2000)
     private String description;
     @Column(nullable = false)
     private Instant createdAt;

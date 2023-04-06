@@ -4,7 +4,6 @@ plugins {
 
 jar {
     baseName = 'user-adapter-in-mvc'
-    version = '0.0.1'
 }
 
 repositories {
@@ -25,6 +24,5 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion"
     implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
     implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
-
-    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    compileOnly "jakarta.servlet:jakarta.servlet-api:${jakartaServletApi}"
 }

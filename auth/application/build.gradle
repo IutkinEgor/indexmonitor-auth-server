@@ -8,7 +8,6 @@ repositories {
 
 jar {
     baseName = 'auth-application'
-    version = '0.0.1'
 }
 
 dependencies {
@@ -16,21 +15,15 @@ dependencies {
     implementation project(":client:domain")
     implementation project(":user:application")
     implementation project(":user:domain")
+    implementation project(":common:adapter:in:api")
     implementation project(":common:application")
     implementation project(":common:domain")
 
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
     implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
-    implementation "org.springframework.security:spring-security-oauth2-authorization-server:$springSecurityAuthServer"
+    implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server:$springResourceServerVersion"
+    implementation "org.springframework.security:spring-security-oauth2-authorization-server:$springSecurityAuthServerVersion"
     implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
-
-    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
-    implementation "org.springframework.session:spring-session-data-redis:${springSessionRedisVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-data-redis:${springDataRedisVersion}"
-    implementation "com.nimbusds:nimbus-jose-jwt:${nimbusdsJoseJwtVersion}"
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-resource-server
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.0.5'
-
-
+    compileOnly "jakarta.servlet:jakarta.servlet-api:$jakartaServletApi"
 }

@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UUID;
 
 
 @Getter
@@ -14,7 +13,6 @@ import org.hibernate.validator.constraints.UUID;
 public class ClientDeleteRequest extends SelfValidator<ClientDeleteRequest> {
 
     @NotBlank(message = "Client Record Id can not be empty.")
-    @UUID(message = "Illegal Id format.")
     private String id;
 
     public java.util.UUID getId() {

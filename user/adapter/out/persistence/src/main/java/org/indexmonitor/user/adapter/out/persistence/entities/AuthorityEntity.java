@@ -24,6 +24,7 @@ public class AuthorityEntity {
     private UUID id;
     @Column(unique = true, nullable = false)
     private String name;
+    @Column(length = 2000)
     private String description;
     private String createdBy;
     @Column(nullable = false)

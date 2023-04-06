@@ -4,7 +4,6 @@ plugins {
 
 jar {
     baseName = 'client-adapter-out-persistence'
-    version = '0.0.1'
 }
 
 repositories {
@@ -20,7 +19,6 @@ dependencies {
     implementation project(":client:domain")
 
     implementation project(":user:adapter:out:persistence")
-
 
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"

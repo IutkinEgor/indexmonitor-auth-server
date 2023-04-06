@@ -4,7 +4,6 @@ plugins {
 
 jar {
     baseName = 'user-adapter-out-email'
-    version = '0.0.1'
 }
 
 repositories {

@@ -33,6 +33,7 @@ public class ClientEntity{
     @Column(unique = true)
     private String secretHash;
     private EncryptionAlgorithm secretAlgorithm;
+    @Column(length = 2000)
     private String description;
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)

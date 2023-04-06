@@ -4,7 +4,6 @@ plugins {
 
 jar {
     baseName = 'client-domain'
-    version = '0.0.1'
 }
 
 repositories {
@@ -12,8 +11,6 @@ repositories {
 }
 
 dependencies {
-
     implementation project(":common:domain")
-
 }
 

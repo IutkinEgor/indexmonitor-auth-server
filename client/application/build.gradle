@@ -4,7 +4,6 @@ plugins {
 
 jar {
     baseName = 'client-application'
-    version = '0.0.1'
 }
 
 repositories {

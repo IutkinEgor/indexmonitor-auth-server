@@ -1,71 +1,17 @@
-repositories {
-    mavenCentral()
-}
-
 ext{
     lombokVersion = '1.18.24'
     springBootVersion = '3.0.1'
     springCloudVersion = '2022.0.1'
-    springSessionRedisVersion = '3.0.1'
     springDataRedisVersion = '3.0.5'
+    springSessionRedisVersion = '3.0.1'
     springConfigClientVersion = '4.0.2'
     springEurekaClientVersion = '4.0.1'
-    springSecurityAuthServer = '1.0.0'
-    postgresqlVersion = '42.5.1'
-    hibernateValidatorVersion = '8.0.0.Final'
-    jakartaValidatonVersion = '3.0.2'
-    springfoxSwaggerVersion = '3.0.0'
-    springContext = '6.0.4'
     springSecurity = '6.0.1'
-    openapiWebMvcUI = '2.0.2'
-    nimbusdsJoseJwtVersion = '9.31'
-    // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-config-client
+    springSecurityAuthServerVersion = '1.0.0'
+    springDependencyManagementVersion = '1.1.0'
+    springResourceServerVersion = '3.0.5'
+    postgresqlVersion = '42.5.1'
+    jakartaServletApi = '6.0.0'
+    jakartaValidatonVersion = '3.0.2'
+    hibernateValidatorVersion = '8.0.0.Final'
 }
-
-
-
-/*
-    -------------Application-------------
-
-    implementation project(":common:application")
-    implementation project(":common:domain")
-
-    implementation project(":user:domain")
-
-    compileOnly "org.projectlombok:lombok:$lombokVersion"
-    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-    implementation "org.springframework:spring-context:$springContext"
-    //implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
-    implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
-
-
-    --------------API / MVC--------------
-
-    implementation project(":common:application")
-    implementation project(":common:domain")
-
-    implementation project(":user:application")
-    implementation project(":user:domain")
-
-    compileOnly "org.projectlombok:lombok:$lombokVersion"
-    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-    implementation "org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion"
-    implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
-    implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
-
-
-    -------------Persistence-------------
-
-    implementation project(":common:application")
-    implementation project(":common:domain")
-
-    implementation project(":user:application")
-    implementation project(":user:domain")
-
-
-    compileOnly "org.projectlombok:lombok:$lombokVersion"
-    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-    implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:$springBootVersion"
-    implementation "org.postgresql:postgresql:$postgresqlVersion"
-*/

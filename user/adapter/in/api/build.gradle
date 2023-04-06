@@ -4,7 +4,6 @@ plugins {
 
 jar {
     baseName = 'user-adapter-in-api'
-    version = '0.0.1'
 }
 
 repositories {
@@ -22,10 +21,6 @@ dependencies {
 
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-    implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
-    implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
-    implementation "org.springframework.session:spring-session-data-redis:${springSessionRedisVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-data-redis:${springDataRedisVersion}"
-    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
 }
 

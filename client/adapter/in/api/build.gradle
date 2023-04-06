@@ -4,7 +4,6 @@ plugins {
 
 jar {
     baseName = 'client-adapter-in-api'
-    version = '0.0.1'
 }
 
 repositories {
@@ -23,22 +22,6 @@ dependencies {
 
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-    implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
-    implementation "org.springframework.security:spring-security-oauth2-jose:$springSecurity"
-    implementation "org.springframework.security:spring-security-oauth2-resource-server:$springSecurity"
-
-//    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-//    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-//    //implementation 'org.springframework.security:spring-security-oauth2-resource-server:6.0.1'
-//    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
-
-    implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
-
-//    implementation "io.springfox:springfox-swagger2:$springfoxSwaggerVersion"
-//    implementation "io.springfox:springfox-swagger-ui:$springfoxSwaggerVersion"
-
-
-
+    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
 }
 
