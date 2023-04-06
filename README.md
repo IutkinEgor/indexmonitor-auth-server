@@ -70,43 +70,93 @@ By following these steps, you will be ready to run the server:
 1. Clone the repository.
 2. Set up the 'Run/Debug Configuration' in your IDE.
    * The entire application runs as a single Spring context. The main method is located under the configuration:application subproject in the Application.java class. Configure it as the entry point.
-3. Configure the 'application-env.properties' file.
-   - Under the configuration:application subproject in the resource folder, you will find the application.properties file. It has some preset data and uses the spring.profiles.active=dev property that you will not find because it contains sensitive data. You need to provide your configuration in application.properties (not recommended) or create a separate file, application-dev.properties (recommended).
+3. Configure the 'application-env.yml' file.
+   - Under the configuration:application subproject in the resource folder, you will find the application.properties file. It has some preset data and uses the spring.profiles.active=dev property that you will not find because it contains sensitive data. You need to provide your configuration in application.yml (not recommended) or create a separate file, application-dev.yml (recommended).
    - Recommended way: create the application-dev.properties file in the resource folder and insert this code. Provide the required fields.
-  ```properties
-  #JPA and DataBase connection settings
-  spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-  spring.datasource.url=jdbc:postgresql://localhost:8020/auth
-  spring.datasource.username=postgres
-  spring.datasource.password=postgres
-  spring.jpa.generate-ddl=true
-  spring.jpa.hibernate.ddl-auto=update
-
-  #CORS origin allowed list
-  app.cors.origin.list=http://localhost:4200
-
-  #Email service settings
-  app.email.externalDomainAddress=http://localhost:8080
-  #SMTP server connection settings
-  spring.mail.username=
-  spring.mail.password=
-  spring.mail.host=smtp.gmail.com
-  spring.mail.port=587
-  spring.mail.protocol=smtp
-  spring.mail.properties.mail.smtp.auth=true
-  spring.mail.properties.mail.smtp.starttls.enable=true
-
-  #Inital data seeding settings
-  app.data.seed.user.enable = true
-  app.data.seed.user.username = manager
-  app.data.seed.user.password = manager1234
-  app.data.seed.user.givenName = manager
-  app.data.seed.user.familyName = manager
-  app.data.seed.user.email = manager@manager.com
-
-  # Authorization Server UI client
-  app.data.seed.client.enable = true
-  app.data.seed.client.domain = http://localhost:4200
+  ```yml
+# Spring config
+server:
+  address: localhost
+  port: 8080
+spring:
+  application:
+    name: indexmonitor-auth-server
+  # Session storage
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      username:
+      password:
+    session:
+      store-type: redis
+  # Database connection
+  datasource:
+    driver-class-name:
+    url:
+    username:
+    password: 
+  jpa:
+    properties:
+      hibernate:
+        dialect:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    generate-ddl: false
+  # SMTP server connection settings
+  mail:
+    username: ""
+    password: ""
+    host: smtp.gmail.com
+    port: 587
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  cloud:
+    config:
+      enabled: false
+# Discovery server connection
+eureka:
+  client:
+    enabled: true
+    service-url:
+      defaultZone:
+    register-with-eureka: true
+    fetch-registry: true
+# Logging level settings
+logging:
+  level:
+    root: info
+    org.springframework.security: debug
+    org.indexmonitor: TRACE
+# Application settings
+app:
+  # CORS origin allowed list
+  cors:
+    origin:
+      list:
+  # RSA key pare for JWT token signature
+  security:
+    jwt:
+      keyID:
+      publicKey: |
+      privateKey: |
+  # Email service settings
+  email:
+    enable: true
+    confirmEmail:
+      tokenTimeToLiveInSeconds: 3600
+    resetPassword:
+      tokenTimeToLiveInSeconds: 3600
+    externalDomainAddress: http://localhost:8080
   ```
+  #### Application Security Configuration
+  Since the application is stateless, leaving the JWT token signature generation on a randomly generated RSA key pair will prevent horizontal scaling. Therefore, we  need to inject this value. The keyID (short "kid"), it is a unique identifier for the key. The publicKey and privateKey pair, where the privateKey is in the PEM format PKCS #8 standard key and the publicKey is in the PEM format X.509 standard key.
+
   4. Make sure your database connection and SMTP server user are configured correctly, and then run the application.
 
