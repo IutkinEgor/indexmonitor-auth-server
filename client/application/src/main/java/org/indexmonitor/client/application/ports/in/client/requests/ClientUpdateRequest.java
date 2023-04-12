@@ -1,7 +1,7 @@
 package org.indexmonitor.client.application.ports.in.client.requests;
 
-import org.indexmonitor.client.domain.enums.AuthenticationMethod;
-import org.indexmonitor.client.domain.enums.OAuthGrantType;
+import org.indexmonitor.common.domain.enums.AuthenticationMethod;
+import org.indexmonitor.common.domain.enums.OAuthGrantType;
 import org.indexmonitor.common.application.exception.AppValidationException;
 import org.indexmonitor.common.application.models.SelfValidator;
 import jakarta.validation.ConstraintViolation;

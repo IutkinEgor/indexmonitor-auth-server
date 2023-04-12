@@ -6,8 +6,8 @@ import org.indexmonitor.client.application.ports.in.client.requests.ClientRegist
 import org.indexmonitor.client.application.ports.in.client.requests.ClientUpdateRequest;
 import org.indexmonitor.client.domain.aggregates.Client;
 import org.indexmonitor.client.domain.aggregates.Scope;
-import org.indexmonitor.client.domain.enums.AuthenticationMethod;
-import org.indexmonitor.client.domain.enums.OAuthGrantType;
+import org.indexmonitor.common.domain.enums.AuthenticationMethod;
+import org.indexmonitor.common.domain.enums.OAuthGrantType;
 import org.indexmonitor.client.domain.valueObjects.ClientSecret;
 import org.indexmonitor.client.domain.valueObjects.ClientSettings;
 import org.indexmonitor.client.domain.valueObjects.ClientTokenSettings;

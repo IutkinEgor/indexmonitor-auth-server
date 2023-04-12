@@ -1,7 +1,7 @@
 package org.indexmonitor.auth.application.mappers;
 
 
-import org.indexmonitor.client.domain.enums.AuthenticationMethod;
+import org.indexmonitor.common.domain.enums.AuthenticationMethod;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 
 public interface AuthenticationMethodMapper {

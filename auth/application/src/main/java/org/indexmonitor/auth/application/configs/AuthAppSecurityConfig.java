@@ -1,9 +1,11 @@
 package org.indexmonitor.auth.application.configs;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.indexmonitor.auth.application.handlers.AppAuthenticationSuccessHandler;
 import org.indexmonitor.auth.application.models.UserAccountDetails;
 import org.indexmonitor.auth.application.services.AppUserDetailsService;
 import org.indexmonitor.auth.application.services.OidcUserInfoService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -21,18 +23,25 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 class AuthAppSecurityConfig {
+     @Value("${app.cors.origin.enable}")
+    private Boolean cors_enable;
     private final CorsConfigurationSource corsConfigurationSource;
     private final AppUserDetailsService userDetailsService;
     private final JwtDecoder jwtDecoder;
 
+    private final AppAuthenticationSuccessHandler successHandler;
+
     @Bean
     @Order(2)
     SecurityFilterChain apiFilter(HttpSecurity http) throws Exception {
-        http.cors().configurationSource(corsConfigurationSource)
-                .and()
-                .securityMatcher("/api/**")
+        if(cors_enable){
+            http.cors().configurationSource(corsConfigurationSource);
+        } else {
+            http.cors().disable();
+        }
+        http.securityMatcher("/api/**")
                 .authorizeHttpRequests()
                 .requestMatchers("/api/**").authenticated()
                 .and()
@@ -48,15 +57,18 @@ class AuthAppSecurityConfig {
     @Bean
     @Order(3)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.cors().configurationSource(corsConfigurationSource)
-                .and()
-                .securityMatcher("/oauth2/**", "/login/**", "/register/**", "/userinfo", "/confirm-email/**")
+        if(cors_enable){
+            http.cors().configurationSource(corsConfigurationSource);
+        } else {
+            http.cors().disable();
+        }
+        http.securityMatcher("/oauth2/**", "/login/**", "/register/**", "/userinfo", "/confirm-email/**")
                 .authorizeHttpRequests()
                 .requestMatchers("/oauth2/**", "/login/**", "/register/**", "/userinfo", "/confirm-email/**")
                 .permitAll()
                 .and()
                 .httpBasic().and()
-                .formLogin().loginPage("/login").usernameParameter("email");
+                .formLogin().loginPage("/login").usernameParameter("email").successHandler(successHandler);
         return http.build();
     }
 

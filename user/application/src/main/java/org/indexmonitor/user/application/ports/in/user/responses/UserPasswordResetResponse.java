@@ -8,9 +8,11 @@ import lombok.Setter;
 import org.indexmonitor.common.domain.valueObjects.BasePage;
 import org.indexmonitor.user.domain.aggregates.User;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class UserPasswordResetResponse {
+public class UserPasswordResetResponse implements Serializable {
     @NotEmpty(message = "Email field can not be empty.")
     @Email(message = "Invalid email pattern.")
     private String email;

@@ -1,12 +1,13 @@
 package org.indexmonitor.client.domain.aggregates;
 
-import org.indexmonitor.client.domain.enums.AuthenticationMethod;
-import org.indexmonitor.client.domain.enums.OAuthGrantType;
+
 import org.indexmonitor.client.domain.models.ClientBuildException;
 import org.indexmonitor.client.domain.valueObjects.ClientSecret;
 import org.indexmonitor.client.domain.valueObjects.ClientSettings;
 import org.indexmonitor.client.domain.valueObjects.ClientTokenSettings;
+import org.indexmonitor.common.domain.enums.AuthenticationMethod;
 import org.indexmonitor.common.domain.enums.EncryptionAlgorithm;
+import org.indexmonitor.common.domain.enums.OAuthGrantType;
 import org.indexmonitor.common.domain.models.AggregateRoot;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
 

@@ -1,6 +1,8 @@
 rootProject.name = 'indexmonitor-auth-server'
 
-include ':auth:application'
+include ':auth:adapter:out:persistence',
+        ':auth:application',
+        ':auth:domain'
 
 include ':client:adapter:in:api',
         ':client:adapter:out:persistence',
@@ -20,4 +22,5 @@ include ':user:adapter:in:api',
         ':user:adapter:out:persistence',
         ':user:application',
         ':user:domain'
+
 

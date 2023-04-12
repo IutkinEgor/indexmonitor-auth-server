@@ -1,7 +1,7 @@
 package org.indexmonitor.auth.application.mappers.impl;
 
 import org.indexmonitor.auth.application.mappers.GrantTypeMapper;
-import org.indexmonitor.client.domain.enums.OAuthGrantType;
+import org.indexmonitor.common.domain.enums.OAuthGrantType;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package org.indexmonitor.client.domain.enums;
+package org.indexmonitor.common.domain.enums;
 
 public enum AuthenticationMethod {
 

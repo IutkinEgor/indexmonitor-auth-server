@@ -10,7 +10,7 @@ import org.indexmonitor.client.application.ports.out.client.ClientRegisterPort;
 import org.indexmonitor.client.application.ports.out.scope.ScopeLoadPort;
 import org.indexmonitor.client.domain.aggregates.Client;
 import org.indexmonitor.client.domain.aggregates.Scope;
-import org.indexmonitor.client.domain.enums.AuthenticationMethod;
+import org.indexmonitor.common.domain.enums.AuthenticationMethod;
 import org.indexmonitor.client.domain.valueObjects.ClientSecret;
 import org.indexmonitor.common.application.models.Interactor;
 import org.indexmonitor.common.domain.enums.EncryptionAlgorithm;

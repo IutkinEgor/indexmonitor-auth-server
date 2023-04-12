@@ -13,11 +13,15 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.security.KeyFactory;
@@ -31,7 +35,10 @@ import java.util.Base64;
 @Configuration
 @RequiredArgsConstructor
 class AuthAppServerConfig {
-
+    @Value("${app.issuer_url}")
+    private String issuer_url;
+    @Value("${app.cors.origin.enable}")
+    private Boolean cors_enable;
     @Value("${app.security.jwt.keyID}")
     private String keyID;
     @Value("${app.security.jwt.publicKey}")
@@ -43,7 +50,11 @@ class AuthAppServerConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain appAuthServerSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.cors().configurationSource(corsConfigurationSource);
+        if(cors_enable){
+            http.cors().configurationSource(corsConfigurationSource);
+        } else {
+            http.cors().disable();
+        }
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
@@ -52,7 +63,7 @@ class AuthAppServerConfig {
                 })
                 .exceptionHandling((exceptions) -> {
                             exceptions.authenticationEntryPoint(
-                                    new LoginUrlAuthenticationEntryPoint("/login"));
+                                    new LoginUrlAuthenticationEntryPoint(issuer_url + "/login"));
                         }
                 );
         return http.build();
@@ -60,8 +71,11 @@ class AuthAppServerConfig {
 
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
-        return AuthorizationServerSettings.builder().build();
+        return AuthorizationServerSettings.builder()
+                .issuer(issuer_url)
+                .build();
     }
+
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
@@ -86,6 +100,12 @@ class AuthAppServerConfig {
             System.out.println("Exception: " + e.getMessage());
             return null;
         }
+    }
+
+    @Bean
+    public OAuth2AuthorizationService oAuth2AuthorizationService(){
+        InMemoryOAuth2AuthorizationService service = new InMemoryOAuth2AuthorizationService();
+        return JdbcOAuth2AuthorizationService()
     }
 
     @Bean

@@ -1,0 +1,11 @@
+plugins {
+    id 'java-library'
+}
+
+jar {
+    baseName = 'auth-domain'
+}
+
+dependencies {
+    implementation project(":common:domain")
+}

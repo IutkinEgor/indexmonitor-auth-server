@@ -11,6 +11,7 @@ jar {
 }
 
 dependencies {
+    implementation project(":auth:domain")
     implementation project(":client:application")
     implementation project(":client:domain")
     implementation project(":user:application")

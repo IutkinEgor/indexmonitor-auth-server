@@ -12,10 +12,11 @@ spring:
     redis:
       host: ${REDIS_SESSION_STORAGE_HOST:localhost}
       port: ${REDIS_SESSION_STORAGE_PORT:6379}
-      username: ${REDIS_SESSION_STORAGE_USERNAME}
-      password: ${REDIS_SESSION_STORAGE_PASSWORD}
-    session:
-      store-type: redis
+      username:
+      password:
+  session:
+    store-type: redis
+    timeout: ${SESSION_TIMEOUT_IN_SECONDS:60}
   # Database connection
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -61,6 +62,7 @@ eureka:
       defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE:"http://localhost:8761/eureka"}
     register-with-eureka: ${EUREKA_CLIENT_ENABLE:false}
     fetch-registry: ${EUREKA_CLIENT_ENABLE:false}
+
 # Logging level settings
 logging:
   level:
@@ -69,9 +71,11 @@ logging:
     org.indexmonitor: ${LOGGING_LEVEL_APP:INFO}
 # Application settings
 app:
+  issuer_url: ${APP_ISSUER_URL:"${server.address}:${server.port}"}
   # CORS origin allowed list
   cors:
     origin:
+      enable: ${APP_CORS_ORIGIN_ENABLE:false}
       list: ${APP_CORS_ORIGIN_LIST:*}
   # RSA key pare for JWT token signature
   security:
