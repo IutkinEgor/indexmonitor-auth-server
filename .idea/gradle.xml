@@ -12,11 +12,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/auth" />
-            <option value="$PROJECT_DIR$/auth/adapter" />
-            <option value="$PROJECT_DIR$/auth/adapter/out" />
-            <option value="$PROJECT_DIR$/auth/adapter/out/persistence" />
             <option value="$PROJECT_DIR$/auth/application" />
-            <option value="$PROJECT_DIR$/auth/domain" />
             <option value="$PROJECT_DIR$/client" />
             <option value="$PROJECT_DIR$/client/adapter" />
             <option value="$PROJECT_DIR$/client/adapter/in" />

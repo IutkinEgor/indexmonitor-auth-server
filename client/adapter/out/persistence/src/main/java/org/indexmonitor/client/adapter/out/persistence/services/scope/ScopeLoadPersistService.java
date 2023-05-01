@@ -8,13 +8,11 @@ import org.indexmonitor.client.domain.aggregates.Scope;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
 import lombok.AllArgsConstructor;
 import org.indexmonitor.common.domain.valueObjects.BasePage;
-import org.indexmonitor.user.adapter.out.persistence.entities.RoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,12 +28,6 @@ class ScopeLoadPersistService implements ScopeLoadPort {
     public BasePage<Scope> findAll(Integer page, Integer size) {
         Page<ScopeEntity> entities = repository.findAll(PageRequest.of(page,size, Sort.by(Sort.Direction.ASC, "createdAt")));
         return mapper.entityToModel(entities);
-    }
-
-    @Override
-    public Set<Scope> findAllById(Set<BaseId> baseIdList) {
-        Set<ScopeEntity> entities = repository.findAllById(baseIdList.stream().map(id -> ScopeEntity.convertId(id)).collect(Collectors.toSet()));
-        return entities.stream().map(entity -> mapper.entityToModel(entity)).collect(Collectors.toSet());
     }
 
     @Override

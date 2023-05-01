@@ -16,11 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ConfirmEmailController {
     private final UserRegisterUseCase userRegisterUseCase;
 
-    @GetMapping
-    public String confirmEmail(){
-        return "confirmEmail/confirmEmail";
-    }
-
     @GetMapping("callback")
     public String confirmEmailCallback(@RequestParam("token") String token, Model model){
         BaseResponse<RedirectUrlResponse> response = this.userRegisterUseCase.confirmEmailCallback(token);

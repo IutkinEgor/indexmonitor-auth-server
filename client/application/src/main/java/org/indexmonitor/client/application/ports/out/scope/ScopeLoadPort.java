@@ -11,7 +11,6 @@ import java.util.Set;
 
 public interface ScopeLoadPort extends Port {
     BasePage<Scope> findAll(Integer page, Integer size);
-    Set<Scope> findAllById(Set<BaseId> baseIdList);
     Optional<Scope> findById(BaseId id);
     Optional<Scope> findByName(String name);
     Boolean isExist(Scope scope);

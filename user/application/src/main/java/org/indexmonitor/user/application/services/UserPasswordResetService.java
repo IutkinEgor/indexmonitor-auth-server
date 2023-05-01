@@ -59,8 +59,21 @@ public class UserPasswordResetService {
             resetPasswordDeletePort.deleteById(resetPassword.get().getId());
             throw new ResetPasswordTokenExpiredException();
         }
-        resetPasswordDeletePort.deleteById(resetPassword.get().getId());
+        //resetPasswordDeletePort.deleteById(resetPassword.get().getId());
         return resetPassword.get().getUser().getId();
+    }
+
+    public String removeTokenAndReturnRedirectLink(BaseId id){
+         Optional<ResetPassword> resetPassword = resetPasswordLoadPort.findByUserId(id);
+        if(resetPassword.isEmpty()){
+            throw new ResetPasswordNotFoundException();
+        }
+        if(resetPassword.get().getToken().isExpired()){
+            resetPasswordDeletePort.deleteById(resetPassword.get().getId());
+            throw new ResetPasswordTokenExpiredException();
+        }
+        resetPasswordDeletePort.deleteById(resetPassword.get().getId());
+        return resetPassword.get().getRedirectLink();
     }
 
     private ResetPassword buildResetPassword(UserPasswordResetRequest request, User user){

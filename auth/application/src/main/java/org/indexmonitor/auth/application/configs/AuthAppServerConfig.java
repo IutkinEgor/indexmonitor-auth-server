@@ -103,12 +103,6 @@ class AuthAppServerConfig {
     }
 
     @Bean
-    public OAuth2AuthorizationService oAuth2AuthorizationService(){
-        InMemoryOAuth2AuthorizationService service = new InMemoryOAuth2AuthorizationService();
-        return JdbcOAuth2AuthorizationService()
-    }
-
-    @Bean
     public JwtDecoder jwtDecoder() {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource());
     }

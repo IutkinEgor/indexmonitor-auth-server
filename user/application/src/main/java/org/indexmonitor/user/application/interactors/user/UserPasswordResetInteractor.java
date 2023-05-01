@@ -10,6 +10,7 @@ import org.indexmonitor.user.application.ports.in.user.UserPasswordResetUseCase;
 import org.indexmonitor.user.application.ports.in.user.requests.UserPasswordResetCallbackRequest;
 import org.indexmonitor.user.application.ports.in.user.requests.UserPasswordResetRequest;
 import org.indexmonitor.user.application.ports.in.user.requests.UserPasswordResetStartRequest;
+import org.indexmonitor.user.application.ports.in.user.responses.RedirectUrlResponse;
 import org.indexmonitor.user.application.ports.in.user.responses.UserPasswordResetResponse;
 import org.indexmonitor.user.application.ports.out.user.UserLoadPort;
 import org.indexmonitor.user.application.ports.out.user.UserUpdatePort;
@@ -64,11 +65,11 @@ class UserPasswordResetInteractor extends Interactor implements UserPasswordRese
     }
 
     @Override
-    public BaseResponse updatePassword(UserPasswordResetCallbackRequest request) {
+    public BaseResponse<RedirectUrlResponse> updatePassword(UserPasswordResetCallbackRequest request) {
         try {
             request.validateSelf();
             tryUpdateUserPassword(request);
-            return onRequestSuccess();
+            return onRequestSuccess(new RedirectUrlResponse(userPasswordResetService.removeTokenAndReturnRedirectLink(BaseId.map(request.getUserId()))));
         }catch (Exception e) {
             return onRequestFailure(e);
         }

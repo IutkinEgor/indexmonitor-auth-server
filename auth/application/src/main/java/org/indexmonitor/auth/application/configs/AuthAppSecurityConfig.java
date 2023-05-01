@@ -25,12 +25,14 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @Configuration
 @RequiredArgsConstructor
 class AuthAppSecurityConfig {
-     @Value("${app.cors.origin.enable}")
+
+    @Value("${app.issuer_url}")
+    private String issuer_url;
+    @Value("${app.cors.origin.enable}")
     private Boolean cors_enable;
     private final CorsConfigurationSource corsConfigurationSource;
     private final AppUserDetailsService userDetailsService;
     private final JwtDecoder jwtDecoder;
-
     private final AppAuthenticationSuccessHandler successHandler;
 
     @Bean
@@ -68,7 +70,7 @@ class AuthAppSecurityConfig {
                 .permitAll()
                 .and()
                 .httpBasic().and()
-                .formLogin().loginPage("/login").usernameParameter("email").successHandler(successHandler);
+                .formLogin().loginPage("/login").usernameParameter("email").successHandler(successHandler).failureUrl(issuer_url+"/login?error");
         return http.build();
     }
 

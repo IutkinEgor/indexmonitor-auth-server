@@ -49,9 +49,9 @@ public class UserRegisterController {
             return "register/registerForm";
         }
         if(isEmailServiceEnable){
-            return "redirect:/confirm-email";
+            return "confirmEmail/confirmEmail";
         }
-        model.addAttribute("millisecondLink", "4000");
+        model.addAttribute("millisecondLink", "3000");
         model.addAttribute("redirectLink", redirectUrl);
         return "register/registerSuccess";
     }

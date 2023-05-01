@@ -1,6 +1,7 @@
 package org.indexmonitor.user.adapter.in.mvc.controllers;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.indexmonitor.common.domain.valueObjects.BaseId;
 import org.indexmonitor.common.domain.valueObjects.BaseResponse;
 import org.indexmonitor.user.application.ports.in.user.UserPasswordResetUseCase;
@@ -9,7 +10,9 @@ import org.indexmonitor.user.application.ports.in.user.requests.UserPasswordRese
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.indexmonitor.user.application.ports.in.user.requests.UserPasswordResetRequest;
+import org.indexmonitor.user.application.ports.in.user.responses.RedirectUrlResponse;
 import org.indexmonitor.user.application.ports.in.user.responses.UserPasswordResetResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,13 +20,16 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("reset-password")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ResetPasswordController {
 
+    @Value("${app.resetPasswordRedirectUrl}")
+    private String resetPasswordRedirectUrl;
     private final UserPasswordResetUseCase userPasswordResetUseCase;
 
     @GetMapping("step-1")
-    public String showEmailForm(Model model){
+    public String showEmailForm(@RequestParam(value = "redirectUrl", required = false) String redirectUrl, Model model, HttpSession session){
+        session.setAttribute("redirectUrl", redirectUrl == null || redirectUrl.isEmpty() ? resetPasswordRedirectUrl : redirectUrl);
         model.addAttribute("request", new UserPasswordResetStartRequest());
         return "resetPassword/resetPasswordEmailForm";
     }
@@ -44,14 +50,14 @@ public class ResetPasswordController {
         model.addAttribute("email", response.getData().getEmail());
         model.addAttribute("question", response.getData().getRecoveryQuestion());
         session.setAttribute("response", response.getData());
-
         return "resetPassword/resetPasswordQuestionForm";
     }
 
     @PostMapping("step-3")
     public String resetPassword(@ModelAttribute("answer") String answer, Model model, HttpSession session){
         UserPasswordResetResponse previousResponse = (UserPasswordResetResponse) session.getAttribute("response");
-        UserPasswordResetRequest request = new UserPasswordResetRequest(previousResponse.getEmail(),previousResponse.getRecoveryQuestion(),answer, "");
+        String redirectUrl = session.getAttribute("redirectUrl").toString();
+        UserPasswordResetRequest request = new UserPasswordResetRequest(previousResponse.getEmail(),previousResponse.getRecoveryQuestion(),answer, redirectUrl);
         BaseResponse response = userPasswordResetUseCase.sendToken(request);
         if(response.isFailure()){
             model.addAttribute("email", request.getEmail());
@@ -81,19 +87,13 @@ public class ResetPasswordController {
             request.setUserId(null);
             return "resetPassword/updatePasswordForm";
         }
-        BaseResponse response = userPasswordResetUseCase.updatePassword(request);
+        BaseResponse<RedirectUrlResponse> response = userPasswordResetUseCase.updatePassword(request);
         if(response.isFailure()){
             model.addAttribute("errorMessage", response.getMessage());
             return "resetPassword/updatePasswordForm";
         }
-        return "redirect:/reset-password/success";
-    }
-
-    @GetMapping("success")
-    public String success(Model model){
-        model.addAttribute("millisecondLink", "4000");
-        model.addAttribute("redirectLink", "http://localhost:8080/login");
+        model.addAttribute("millisecondLink", "3000");
+        model.addAttribute("redirectLink", response.getData().getUrl());
         return "resetPassword/updatePasswordSuccess";
     }
-
 }

@@ -45,3 +45,9 @@ gradle-app.setting
 
 prodBuild/**
 
+# Env variables
+.env
+.env.*
+
+#Docker compose
+docker-compose.*

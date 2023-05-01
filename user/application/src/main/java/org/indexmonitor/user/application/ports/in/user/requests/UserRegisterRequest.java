@@ -45,7 +45,7 @@ public class UserRegisterRequest extends SelfValidator<UserRegisterRequest> {
     private String confirmPassword;
 
     @NotEmpty(message = "Question field can not be empty.")
-    @Size(min = 8, max = 255, message = "Length must be between 8 and 255 characters.")
+    @Size(min = 1, max = 255, message = "Length must be between 8 and 255 characters.")
     private String recoveryQuestion;
 
     @NotEmpty(message = "Answer field can not be empty.")

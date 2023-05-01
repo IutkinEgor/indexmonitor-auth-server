@@ -86,11 +86,13 @@ app:
   # Email service settings
   email:
     enable: ${APP_EMAIL_ENABLE:true}
+    from: ${APP_EMAIL_FROM:none}
     confirmEmail:
       tokenTimeToLiveInSeconds: ${APP_EMAIL_CONFIRM_EMAIL_TOKEN_TIME_TO_LIVE_IN_SECONDS:3600}
     resetPassword:
       tokenTimeToLiveInSeconds: ${APP_EMAIL_RESET_PASSWORD_TOKEN_TIME_TO_LIVE_IN_SECONDS:3600}
     externalDomainAddress: ${APP_EMAIL_EXTERNAL_DOMAIN_ADDRESS:http://localhost:8080}
+  resetPasswordRedirectUrl: ${APP_RESET_PASSWORD_REDIRECT_URL:https://indexmonitor.info}
   data:
     seed:
       enable: ${APP_DATA_SEED_ENABLE:false}
