@@ -2,6 +2,7 @@ package org.indexmonitor.user.application.ports.in.user.requests;
 
 
 import org.indexmonitor.common.application.annotations.AppFieldEquality;
+import org.indexmonitor.common.application.annotations.AppFieldInequality;
 import org.indexmonitor.common.application.models.SelfValidator;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
+import org.indexmonitor.user.domain.enums.RecoveryQuestions;
 
 import java.time.Instant;
 
@@ -44,8 +46,7 @@ public class UserRegisterRequest extends SelfValidator<UserRegisterRequest> {
     @Size(min = 8, max = 35, message = "Length must be between 8 and 35 characters.")
     private String confirmPassword;
 
-    @NotEmpty(message = "Question field can not be empty.")
-    @Size(min = 1, max = 255, message = "Length must be between 8 and 255 characters.")
+    @NotEmpty(message = "Select recovery question")
     private String recoveryQuestion;
 
     @NotEmpty(message = "Answer field can not be empty.")

@@ -22,11 +22,10 @@ public enum RecoveryQuestions {
     WHAT_IS_THE_NAME_OF_THE_FIRST_WEBSITE_YOU_EVER_VISITED	("What is the name of the first website you ever visited?"),
     WHAT_IS_THE_NAME_OF_THE_FIRST_SOCIAL_MEDIA_PLATFORM_YOU_JOINED	("What is the name of the first social media platform you joined?");
     private final String question;
-
+    public static final String QUESTION_DEFAULT = "Select recovery question";
     RecoveryQuestions(String question) {
         this.question = question;
     }
-
     public String getQuestion() {
         return question;
     }
